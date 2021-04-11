@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BankingModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account_Holder">
+          <Key>
+            <PropertyRef Name="account_no" />
+          </Key>
+          <Property Name="customer_id" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="account_no" Type="numeric" Precision="16" Scale="0" Nullable="false" />
+          <Property Name="login_pass" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="trans_pass" Type="numeric" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="service_ref_no" Type="numeric" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="balance" Type="numeric" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="customer_name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="acct_type" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="account_status" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="admin_password" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Beneficiary">
+          <Key>
+            <PropertyRef Name="ben_id" />
+          </Key>
+          <Property Name="ben_id" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="ben_name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ben_account_no" Type="numeric" Precision="16" Scale="0" Nullable="false" />
+          <Property Name="ben_nickname" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="account_no" Type="numeric" Precision="16" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="service_ref_no" />
+          </Key>
+          <Property Name="service_ref_no" Type="numeric" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="middle_name" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="father_name" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="mobile_no" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="email_id" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="aadhar_no" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="date_of_birth" Type="date" Nullable="false" />
+          <Property Name="res_addr_line1" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="res_addr_line2" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="res_landmark" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="res_state" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="res_city" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="res_pincode" Type="numeric" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="perm_addr_line1" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="perm_addr_line2" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="perm_landmark" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="perm_state" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="perm_city" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="perm_pincode" Type="numeric" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="occ_type" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="inc_source" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="gross_annual_inc" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="acct_type" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="opt_debit_card" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="opt_netbanking" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="acct_status" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="ref_id" />
+          </Key>
+          <Property Name="ref_id" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="mode" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="recipient_acct" Type="numeric" Precision="16" Scale="0" Nullable="false" />
+          <Property Name="account_no" Type="numeric" Precision="16" Scale="0" Nullable="false" />
+          <Property Name="amount" Type="numeric" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="trans_date" Type="datetime" Nullable="false" />
+          <Property Name="remarks" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <Association Name="account_holder_foreign_key">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Account_Holder" Type="Self.Account_Holder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="service_ref_no" />
+            </Principal>
+            <Dependent Role="Account_Holder">
+              <PropertyRef Name="service_ref_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Beneficiary_foreign_key">
+          <End Role="Account_Holder" Type="Self.Account_Holder" Multiplicity="1" />
+          <End Role="Beneficiary" Type="Self.Beneficiary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account_Holder">
+              <PropertyRef Name="account_no" />
+            </Principal>
+            <Dependent Role="Beneficiary">
+              <PropertyRef Name="account_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Transactions_foreign_key">
+          <End Role="Account_Holder" Type="Self.Account_Holder" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account_Holder">
+              <PropertyRef Name="account_no" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="account_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="display_Acccount_Holder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="display_customer_requests" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="display_customer_requests1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="display_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="BankingModel1StoreContainer">
+          <EntitySet Name="Account_Holder" EntityType="Self.Account_Holder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Beneficiary" EntityType="Self.Beneficiary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="account_holder_foreign_key" Association="Self.account_holder_foreign_key">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Account_Holder" EntitySet="Account_Holder" />
+          </AssociationSet>
+          <AssociationSet Name="Beneficiary_foreign_key" Association="Self.Beneficiary_foreign_key">
+            <End Role="Account_Holder" EntitySet="Account_Holder" />
+            <End Role="Beneficiary" EntitySet="Beneficiary" />
+          </AssociationSet>
+          <AssociationSet Name="Transactions_foreign_key" Association="Self.Transactions_foreign_key">
+            <End Role="Account_Holder" EntitySet="Account_Holder" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BankingModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account_Holder">
+          <Key>
+            <PropertyRef Name="account_no" />
+          </Key>
+          <Property Name="customer_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="account_no" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
+          <Property Name="login_pass" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="trans_pass" Type="Decimal" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="service_ref_no" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="balance" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="customer_name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="acct_type" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="account_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.account_holder_foreign_key" FromRole="Account_Holder" ToRole="Customer" />
+          <NavigationProperty Name="Beneficiaries" Relationship="Self.Beneficiary_foreign_key" FromRole="Account_Holder" ToRole="Beneficiary" />
+          <NavigationProperty Name="Transactions" Relationship="Self.Transactions_foreign_key" FromRole="Account_Holder" ToRole="Transactions" />
+        </EntityType>
+        <EntityType Name="Beneficiary">
+          <Key>
+            <PropertyRef Name="ben_id" />
+          </Key>
+          <Property Name="ben_id" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="ben_name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ben_account_no" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
+          <Property Name="ben_nickname" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="account_no" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Account_Holder" Relationship="Self.Beneficiary_foreign_key" FromRole="Beneficiary" ToRole="Account_Holder" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="service_ref_no" />
+          </Key>
+          <Property Name="service_ref_no" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="first_name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="middle_name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="father_name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mobile_no" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="email_id" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="aadhar_no" Type="Decimal" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="res_addr_line1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="res_addr_line2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="res_landmark" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="res_state" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="res_city" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="res_pincode" Type="Decimal" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="perm_addr_line1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="perm_addr_line2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="perm_landmark" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="perm_state" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="perm_city" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="perm_pincode" Type="Decimal" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="occ_type" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="inc_source" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="gross_annual_inc" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="acct_type" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="acct_status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="opt_debit_card" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="opt_netbanking" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Account_Holder" Relationship="Self.account_holder_foreign_key" FromRole="Customer" ToRole="Account_Holder" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="ref_id" />
+          </Key>
+          <Property Name="ref_id" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="recipient_acct" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
+          <Property Name="account_no" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
+          <Property Name="amount" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="trans_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="remarks" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Account_Holder" Relationship="Self.Transactions_foreign_key" FromRole="Transactions" ToRole="Account_Holder" />
+        </EntityType>
+        <Association Name="account_holder_foreign_key">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Account_Holder" Type="Self.Account_Holder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="service_ref_no" />
+            </Principal>
+            <Dependent Role="Account_Holder">
+              <PropertyRef Name="service_ref_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Beneficiary_foreign_key">
+          <End Role="Account_Holder" Type="Self.Account_Holder" Multiplicity="1" />
+          <End Role="Beneficiary" Type="Self.Beneficiary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account_Holder">
+              <PropertyRef Name="account_no" />
+            </Principal>
+            <Dependent Role="Beneficiary">
+              <PropertyRef Name="account_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Transactions_foreign_key">
+          <End Role="Account_Holder" Type="Self.Account_Holder" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account_Holder">
+              <PropertyRef Name="account_no" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="account_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BankingEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Account_Holder" EntityType="Self.Account_Holder" />
+          <EntitySet Name="Beneficiaries" EntityType="Self.Beneficiary" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <AssociationSet Name="account_holder_foreign_key" Association="Self.account_holder_foreign_key">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Account_Holder" EntitySet="Account_Holder" />
+          </AssociationSet>
+          <AssociationSet Name="Beneficiary_foreign_key" Association="Self.Beneficiary_foreign_key">
+            <End Role="Account_Holder" EntitySet="Account_Holder" />
+            <End Role="Beneficiary" EntitySet="Beneficiaries" />
+          </AssociationSet>
+          <AssociationSet Name="Transactions_foreign_key" Association="Self.Transactions_foreign_key">
+            <End Role="Account_Holder" EntitySet="Account_Holder" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <FunctionImport Name="display_customers" ReturnType="Collection(BankingModel1.display_customers_Result)" />
+          <EntitySet Name="Admins" EntityType="BankingModel1.Admin" />
+          <FunctionImport Name="display_customer_requests" ReturnType="Collection(BankingModel1.display_customer_requests_Result)" />
+          <FunctionImport Name="display_Acccount_Holder" ReturnType="Collection(BankingModel1.display_Acccount_Holder_Result)" />
+          <FunctionImport Name="display_customer_requests1" ReturnType="Collection(BankingModel1.display_customer_requests1_Result)" />
+        </EntityContainer>
+        <ComplexType Name="display_customers_Result">
+          <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="String" Name="title" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="father_name" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="mobile_no" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="email_id" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="aadhar_no" Nullable="false" Precision="12" Scale="0" />
+          <Property Type="DateTime" Name="date_of_birth" Nullable="false" />
+          <Property Type="String" Name="res_addr_line1" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_addr_line2" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_landmark" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_state" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_city" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="res_pincode" Nullable="false" Precision="6" Scale="0" />
+          <Property Type="String" Name="perm_addr_line1" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_addr_line2" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_landmark" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_state" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_city" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="perm_pincode" Nullable="false" Precision="6" Scale="0" />
+          <Property Type="String" Name="occ_type" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="inc_source" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="gross_annual_inc" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="acct_type" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="acct_status" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="opt_debit_card" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="opt_netbanking" Nullable="false" MaxLength="5" />
+        </ComplexType>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="admin_password" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="display_customer_requests_Result">
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="display_Acccount_Holder_Result">
+          <Property Type="String" Name="customer_id" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="String" Name="login_pass" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="trans_pass" Nullable="false" Precision="6" Scale="0" />
+          <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="Decimal" Name="balance" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="String" Name="customer_name" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="acct_type" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="account_status" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="display_customer_requests1_Result">
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="acct_type" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BankingModel1StoreContainer" CdmEntityContainer="BankingEntities1">
+          <EntitySetMapping Name="Account_Holder">
+            <EntityTypeMapping TypeName="BankingModel1.Account_Holder">
+              <MappingFragment StoreEntitySet="Account_Holder">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="login_pass" ColumnName="login_pass" />
+                <ScalarProperty Name="trans_pass" ColumnName="trans_pass" />
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+                <ScalarProperty Name="balance" ColumnName="balance" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="acct_type" ColumnName="acct_type" />
+                <ScalarProperty Name="account_status" ColumnName="account_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Beneficiaries">
+            <EntityTypeMapping TypeName="BankingModel1.Beneficiary">
+              <MappingFragment StoreEntitySet="Beneficiary">
+                <ScalarProperty Name="ben_id" ColumnName="ben_id" />
+                <ScalarProperty Name="ben_name" ColumnName="ben_name" />
+                <ScalarProperty Name="ben_account_no" ColumnName="ben_account_no" />
+                <ScalarProperty Name="ben_nickname" ColumnName="ben_nickname" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="BankingModel1.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="father_name" ColumnName="father_name" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="aadhar_no" ColumnName="aadhar_no" />
+                <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+                <ScalarProperty Name="res_addr_line1" ColumnName="res_addr_line1" />
+                <ScalarProperty Name="res_addr_line2" ColumnName="res_addr_line2" />
+                <ScalarProperty Name="res_landmark" ColumnName="res_landmark" />
+                <ScalarProperty Name="res_state" ColumnName="res_state" />
+                <ScalarProperty Name="res_city" ColumnName="res_city" />
+                <ScalarProperty Name="res_pincode" ColumnName="res_pincode" />
+                <ScalarProperty Name="perm_addr_line1" ColumnName="perm_addr_line1" />
+                <ScalarProperty Name="perm_addr_line2" ColumnName="perm_addr_line2" />
+                <ScalarProperty Name="perm_landmark" ColumnName="perm_landmark" />
+                <ScalarProperty Name="perm_state" ColumnName="perm_state" />
+                <ScalarProperty Name="perm_city" ColumnName="perm_city" />
+                <ScalarProperty Name="perm_pincode" ColumnName="perm_pincode" />
+                <ScalarProperty Name="occ_type" ColumnName="occ_type" />
+                <ScalarProperty Name="inc_source" ColumnName="inc_source" />
+                <ScalarProperty Name="gross_annual_inc" ColumnName="gross_annual_inc" />
+                <ScalarProperty Name="acct_type" ColumnName="acct_type" />
+                <ScalarProperty Name="acct_status" ColumnName="acct_status" />
+                <ScalarProperty Name="opt_debit_card" ColumnName="opt_debit_card" />
+                <ScalarProperty Name="opt_netbanking" ColumnName="opt_netbanking" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BankingModel1.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="BankingModel1.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="ref_id" ColumnName="ref_id" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="display_customers" FunctionName="BankingModel1.Store.display_customers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.display_customers_Result">
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="father_name" ColumnName="father_name" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="aadhar_no" ColumnName="aadhar_no" />
+                <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+                <ScalarProperty Name="res_addr_line1" ColumnName="res_addr_line1" />
+                <ScalarProperty Name="res_addr_line2" ColumnName="res_addr_line2" />
+                <ScalarProperty Name="res_landmark" ColumnName="res_landmark" />
+                <ScalarProperty Name="res_state" ColumnName="res_state" />
+                <ScalarProperty Name="res_city" ColumnName="res_city" />
+                <ScalarProperty Name="res_pincode" ColumnName="res_pincode" />
+                <ScalarProperty Name="perm_addr_line1" ColumnName="perm_addr_line1" />
+                <ScalarProperty Name="perm_addr_line2" ColumnName="perm_addr_line2" />
+                <ScalarProperty Name="perm_landmark" ColumnName="perm_landmark" />
+                <ScalarProperty Name="perm_state" ColumnName="perm_state" />
+                <ScalarProperty Name="perm_city" ColumnName="perm_city" />
+                <ScalarProperty Name="perm_pincode" ColumnName="perm_pincode" />
+                <ScalarProperty Name="occ_type" ColumnName="occ_type" />
+                <ScalarProperty Name="inc_source" ColumnName="inc_source" />
+                <ScalarProperty Name="gross_annual_inc" ColumnName="gross_annual_inc" />
+                <ScalarProperty Name="acct_type" ColumnName="acct_type" />
+                <ScalarProperty Name="acct_status" ColumnName="acct_status" />
+                <ScalarProperty Name="opt_debit_card" ColumnName="opt_debit_card" />
+                <ScalarProperty Name="opt_netbanking" ColumnName="opt_netbanking" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="BankingModel1.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="admin_password" ColumnName="admin_password" />
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="display_customer_requests" FunctionName="BankingModel1.Store.display_customer_requests">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.display_customer_requests_Result">
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="display_Acccount_Holder" FunctionName="BankingModel1.Store.display_Acccount_Holder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.display_Acccount_Holder_Result">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="login_pass" ColumnName="login_pass" />
+                <ScalarProperty Name="trans_pass" ColumnName="trans_pass" />
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+                <ScalarProperty Name="balance" ColumnName="balance" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="acct_type" ColumnName="acct_type" />
+                <ScalarProperty Name="account_status" ColumnName="account_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="display_customer_requests1" FunctionName="BankingModel1.Store.display_customer_requests1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.display_customer_requests1_Result">
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="acct_type" ColumnName="acct_type" />
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
