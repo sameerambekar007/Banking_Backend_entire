@@ -81,7 +81,7 @@ namespace Banking.Controllers
             }
             // var result = db.Admins.Where(a => a.admin_id == admin.admin_id && a.admin_password == admin.admin_password).FirstOrDefault();
             account_Holder.customer_id = random.Next(99999999).ToString();
-            account_Holder.account_no = random.Next(999999999);
+            account_Holder.account_no = random.Next(10000000,999999999);
             account_Holder.login_pass = "RSVZ" + "@" + random.Next(10000).ToString();
             account_Holder.trans_pass = random.Next(100000);
             account_Holder.balance = 5000;

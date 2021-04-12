@@ -173,7 +173,10 @@
     <Compile Include="Controllers\AdminDashboardController.cs" />
     <Compile Include="Controllers\AdminsLoginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImpstransferController.cs" />
+    <Compile Include="Controllers\NefttransferController.cs" />
     <Compile Include="Controllers\OpenAccountController.cs" />
+    <Compile Include="Controllers\RtgstransferController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

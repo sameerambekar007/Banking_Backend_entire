@@ -89,7 +89,7 @@
           <Property Name="recipient_acct" Type="numeric" Precision="16" Scale="0" Nullable="false" />
           <Property Name="account_no" Type="numeric" Precision="16" Scale="0" Nullable="false" />
           <Property Name="amount" Type="numeric" Precision="15" Scale="0" Nullable="false" />
-          <Property Name="trans_date" Type="datetime" Nullable="false" />
+          <Property Name="trans_date" Type="date" Nullable="false" />
           <Property Name="remarks" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
         <Association Name="account_holder_foreign_key">
@@ -240,7 +240,7 @@
           <Property Name="recipient_acct" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
           <Property Name="account_no" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
           <Property Name="amount" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
-          <Property Name="trans_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="trans_date" Type="DateTime" Precision="0" Nullable="false" />
           <Property Name="remarks" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Account_Holder" Relationship="Self.Transactions_foreign_key" FromRole="Transactions" ToRole="Account_Holder" />
         </EntityType>

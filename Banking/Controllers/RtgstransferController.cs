@@ -12,45 +12,45 @@ using Banking.Models;
 
 namespace Banking.Controllers
 {
-    public class AddBeneficiariesController : ApiController
+    public class RtgstransferController : ApiController
     {
         public Random random = new Random();
         private BankingEntities1 db = new BankingEntities1();
 
-        // GET: api/AddBeneficiaries
-        public IHttpActionResult GetBeneficiaries()
+        // GET: api/Rtgstransfer
+        public IHttpActionResult GetTransactions()
         {
-            return Ok(db.display_Beneficiary());
+            return Ok(db.display_Transactions());
         }
 
-        // GET: api/AddBeneficiaries/5
-        [ResponseType(typeof(Beneficiary))]
-        public IHttpActionResult GetBeneficiary(decimal id)
+        // GET: api/Rtgstransfer/5
+        [ResponseType(typeof(Transaction))]
+        public IHttpActionResult GetTransaction(string id)
         {
-            Beneficiary beneficiary = db.Beneficiaries.Find(id);
-            if (beneficiary == null)
+            Transaction transaction = db.Transactions.Find(id);
+            if (transaction == null)
             {
                 return NotFound();
             }
 
-            return Ok(beneficiary);
+            return Ok(transaction);
         }
 
-        // PUT: api/AddBeneficiaries/5
+        // PUT: api/Rtgstransfer/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutBeneficiary(decimal id, Beneficiary beneficiary)
+        public IHttpActionResult PutTransaction(string id, Transaction transaction)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != beneficiary.ben_id)
+            if (id != transaction.ref_id)
             {
                 return BadRequest();
             }
 
-            db.Entry(beneficiary).State = EntityState.Modified;
+            db.Entry(transaction).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace Banking.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BeneficiaryExists(id))
+                if (!TransactionExists(id))
                 {
                     return NotFound();
                 }
@@ -71,16 +71,17 @@ namespace Banking.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/AddBeneficiaries
-        [ResponseType(typeof(Beneficiary))]
-        public IHttpActionResult PostBeneficiary(Beneficiary beneficiary)
+        // POST: api/Rtgstransfer
+        [ResponseType(typeof(Transaction))]
+        public IHttpActionResult PostTransaction(Transaction transaction)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            beneficiary.ben_id = random.Next(100000);
-            db.Beneficiaries.Add(beneficiary);
+            transaction.ref_id = "RefRTGS" + "@" + random.Next(10000, 99999).ToString();
+            transaction.mode = "rtgs";
+            db.Transactions.Add(transaction);
 
             try
             {
@@ -88,7 +89,7 @@ namespace Banking.Controllers
             }
             catch (DbUpdateException)
             {
-                if (BeneficiaryExists(beneficiary.ben_id))
+                if (TransactionExists(transaction.ref_id))
                 {
                     return Conflict();
                 }
@@ -98,23 +99,23 @@ namespace Banking.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = beneficiary.ben_id }, beneficiary);
+            return CreatedAtRoute("DefaultApi", new { id = transaction.ref_id }, transaction);
         }
 
-        // DELETE: api/AddBeneficiaries/5
-        [ResponseType(typeof(Beneficiary))]
-        public IHttpActionResult DeleteBeneficiary(decimal id)
+        // DELETE: api/Rtgstransfer/5
+        [ResponseType(typeof(Transaction))]
+        public IHttpActionResult DeleteTransaction(string id)
         {
-            Beneficiary beneficiary = db.Beneficiaries.Find(id);
-            if (beneficiary == null)
+            Transaction transaction = db.Transactions.Find(id);
+            if (transaction == null)
             {
                 return NotFound();
             }
 
-            db.Beneficiaries.Remove(beneficiary);
+            db.Transactions.Remove(transaction);
             db.SaveChanges();
 
-            return Ok(beneficiary);
+            return Ok(transaction);
         }
 
         protected override void Dispose(bool disposing)
@@ -126,9 +127,9 @@ namespace Banking.Controllers
             base.Dispose(disposing);
         }
 
-        private bool BeneficiaryExists(decimal id)
+        private bool TransactionExists(string id)
         {
-            return db.Beneficiaries.Count(e => e.ben_id == id) > 0;
+            return db.Transactions.Count(e => e.ref_id == id) > 0;
         }
     }
 }
