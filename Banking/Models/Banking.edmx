@@ -129,9 +129,11 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="display_Acccount_Holder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="display_Beneficiary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customer_requests" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customer_requests1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="display_Transactions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="BankingModel1StoreContainer">
           <EntitySet Name="Account_Holder" EntityType="Self.Account_Holder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
@@ -301,6 +303,8 @@
           <FunctionImport Name="display_customer_requests" ReturnType="Collection(BankingModel1.display_customer_requests_Result)" />
           <FunctionImport Name="display_Acccount_Holder" ReturnType="Collection(BankingModel1.display_Acccount_Holder_Result)" />
           <FunctionImport Name="display_customer_requests1" ReturnType="Collection(BankingModel1.display_customer_requests1_Result)" />
+          <FunctionImport Name="display_Beneficiary" ReturnType="Collection(BankingModel1.display_Beneficiary_Result)" />
+          <FunctionImport Name="display_Transactions" ReturnType="Collection(BankingModel1.display_Transactions_Result)" />
         </EntityContainer>
         <ComplexType Name="display_customers_Result">
           <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
@@ -360,6 +364,22 @@
           <Property Type="String" Name="first_name" Nullable="false" MaxLength="15" />
           <Property Type="String" Name="acct_type" Nullable="false" MaxLength="15" />
           <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="display_Beneficiary_Result">
+          <Property Type="Decimal" Name="ben_id" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="ben_name" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="ben_account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="String" Name="ben_nickname" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="display_Transactions_Result">
+          <Property Type="String" Name="ref_id" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="mode" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="recipient_acct" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="DateTime" Name="trans_date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -525,6 +545,30 @@
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
                 <ScalarProperty Name="acct_type" ColumnName="acct_type" />
                 <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="display_Beneficiary" FunctionName="BankingModel1.Store.display_Beneficiary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.display_Beneficiary_Result">
+                <ScalarProperty Name="ben_id" ColumnName="ben_id" />
+                <ScalarProperty Name="ben_name" ColumnName="ben_name" />
+                <ScalarProperty Name="ben_account_no" ColumnName="ben_account_no" />
+                <ScalarProperty Name="ben_nickname" ColumnName="ben_nickname" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="display_Transactions" FunctionName="BankingModel1.Store.display_Transactions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.display_Transactions_Result">
+                <ScalarProperty Name="ref_id" ColumnName="ref_id" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

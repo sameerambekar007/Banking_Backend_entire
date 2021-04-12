@@ -169,6 +169,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Account_HolderInsertController.cs" />
+    <Compile Include="Controllers\AddBeneficiariesController.cs" />
     <Compile Include="Controllers\AdminDashboardController.cs" />
     <Compile Include="Controllers\AdminsLoginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -207,6 +208,9 @@
     <Compile Include="Models\display_Acccount_Holder_Result.cs">
       <DependentUpon>Banking.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\display_Beneficiary_Result.cs">
+      <DependentUpon>Banking.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\display_customers_Result.cs">
       <DependentUpon>Banking.tt</DependentUpon>
     </Compile>
@@ -214,6 +218,9 @@
       <DependentUpon>Banking.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\display_customer_requests_Result.cs">
+      <DependentUpon>Banking.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\display_Transactions_Result.cs">
       <DependentUpon>Banking.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">

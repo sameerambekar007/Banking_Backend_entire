@@ -53,5 +53,15 @@ namespace Banking.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<display_customer_requests1_Result>("display_customer_requests1");
         }
+    
+        public virtual ObjectResult<display_Beneficiary_Result> display_Beneficiary()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<display_Beneficiary_Result>("display_Beneficiary");
+        }
+    
+        public virtual ObjectResult<display_Transactions_Result> display_Transactions()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<display_Transactions_Result>("display_Transactions");
+        }
     }
 }

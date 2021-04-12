@@ -72,54 +72,54 @@ namespace Banking.Controllers
         }
 
         // POST: api/Account_HolderInsert
-        //[ResponseType(typeof(Account_Holder))]
-        //public IHttpActionResult PostAccount_Holder(Account_Holder account_Holder)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //   // var result = db.Admins.Where(a => a.admin_id == admin.admin_id && a.admin_password == admin.admin_password).FirstOrDefault();
-        //    account_Holder.customer_id = random.Next(99999999).ToString();
-        //    account_Holder.account_no = random.Next(999999999);
-        //    account_Holder.login_pass = "RSVZ" + "@" + random.Next(10000).ToString();
-        //    account_Holder.trans_pass = random.Next(100000);
-        //    account_Holder.balance = 5000;
-        //    account_Holder.account_status = "open";
-
-        //db.Account_Holder.Add(account_Holder);
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (Account_HolderExists(account_Holder.account_no))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
-        //}
-        [HttpPost]
-        public IHttpActionResult Get([FromBody] Customer customer)
+        [ResponseType(typeof(Account_Holder))]
+        public IHttpActionResult PostAccount_Holder(Account_Holder account_Holder)
         {
-            var result = db.Customers.Where(a => a.service_ref_no == customer.service_ref_no && a.first_name == customer.first_name && a.last_name == customer.last_name).FirstOrDefault();
-            if (result != null)
+            if (!ModelState.IsValid)
             {
-                return Ok("Found");
+                return BadRequest(ModelState);
             }
-            else
+            // var result = db.Admins.Where(a => a.admin_id == admin.admin_id && a.admin_password == admin.admin_password).FirstOrDefault();
+            account_Holder.customer_id = random.Next(99999999).ToString();
+            account_Holder.account_no = random.Next(999999999);
+            account_Holder.login_pass = "RSVZ" + "@" + random.Next(10000).ToString();
+            account_Holder.trans_pass = random.Next(100000);
+            account_Holder.balance = 5000;
+            account_Holder.account_status = "open";
+
+            db.Account_Holder.Add(account_Holder);
+
+            try
             {
-                return Ok("NOT FOUND");
+                db.SaveChanges();
             }
+            catch (DbUpdateException)
+            {
+                if (Account_HolderExists(account_Holder.account_no))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
         }
+        //[HttpPost]
+        //public IHttpActionResult Get([FromBody] Customer customer)
+        //{
+        //    var result = db.Customers.Where(a => a.service_ref_no == customer.service_ref_no && a.first_name == customer.first_name && a.last_name == customer.last_name).FirstOrDefault();
+        //    if (result != null)
+        //    {
+        //        return Ok("Found");
+        //    }
+        //    else
+        //    {
+        //        return Ok("NOT FOUND");
+        //    }
+        //}
 
         // DELETE: api/Account_HolderInsert/5
         [ResponseType(typeof(Account_Holder))]
