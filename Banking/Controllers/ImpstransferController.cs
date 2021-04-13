@@ -81,6 +81,7 @@ namespace Banking.Controllers
             }
             transaction.ref_id = "RefIMPS" + "@" + random.Next(10000,99999).ToString();
             transaction.mode = "imps";
+
             db.Transactions.Add(transaction);
 
             try

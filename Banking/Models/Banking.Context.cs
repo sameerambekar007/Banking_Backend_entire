@@ -63,5 +63,23 @@ namespace Banking.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<display_Transactions_Result>("display_Transactions");
         }
+    
+        public virtual int block_account(string customer_id)
+        {
+            var customer_idParameter = customer_id != null ?
+                new ObjectParameter("customer_id", customer_id) :
+                new ObjectParameter("customer_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("block_account", customer_idParameter);
+        }
+    
+        public virtual int unblock_account(string customer_id)
+        {
+            var customer_idParameter = customer_id != null ?
+                new ObjectParameter("customer_id", customer_id) :
+                new ObjectParameter("customer_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("unblock_account", customer_idParameter);
+        }
     }
 }

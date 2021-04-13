@@ -128,12 +128,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="block_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="customer_id" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="display_Acccount_Holder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_Beneficiary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customer_requests" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customer_requests1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_Transactions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="unblock_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="customer_id" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="BankingModel1StoreContainer">
           <EntitySet Name="Account_Holder" EntityType="Self.Account_Holder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
@@ -305,6 +311,12 @@
           <FunctionImport Name="display_customer_requests1" ReturnType="Collection(BankingModel1.display_customer_requests1_Result)" />
           <FunctionImport Name="display_Beneficiary" ReturnType="Collection(BankingModel1.display_Beneficiary_Result)" />
           <FunctionImport Name="display_Transactions" ReturnType="Collection(BankingModel1.display_Transactions_Result)" />
+          <FunctionImport Name="block_account">
+            <Parameter Name="customer_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="unblock_account">
+            <Parameter Name="customer_id" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="display_customers_Result">
           <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
@@ -572,6 +584,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="block_account" FunctionName="BankingModel1.Store.block_account" />
+          <FunctionImportMapping FunctionImportName="unblock_account" FunctionName="BankingModel1.Store.unblock_account" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
