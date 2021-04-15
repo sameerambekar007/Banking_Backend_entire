@@ -9,10 +9,10 @@
           <Key>
             <PropertyRef Name="account_no" />
           </Key>
-          <Property Name="customer_id" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="customer_id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="account_no" Type="numeric" Precision="16" Scale="0" Nullable="false" />
-          <Property Name="login_pass" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="trans_pass" Type="numeric" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="login_pass" Type="varchar" MaxLength="15" />
+          <Property Name="trans_pass" Type="numeric" Precision="5" Scale="0" />
           <Property Name="service_ref_no" Type="numeric" Precision="15" Scale="0" Nullable="false" />
           <Property Name="balance" Type="numeric" Precision="15" Scale="0" Nullable="false" />
           <Property Name="customer_name" Type="varchar" MaxLength="25" Nullable="false" />
@@ -47,7 +47,7 @@
           <Property Name="last_name" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="father_name" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="mobile_no" Type="numeric" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="email_id" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="email_id" Type="varchar" MaxLength="70" Nullable="false" />
           <Property Name="aadhar_no" Type="numeric" Precision="12" Scale="0" Nullable="false" />
           <Property Name="date_of_birth" Type="date" Nullable="false" />
           <Property Name="res_addr_line1" Type="varchar" MaxLength="15" Nullable="false" />
@@ -129,6 +129,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="account_summary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="approve_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="service_ref_no" Type="numeric" Mode="In" />
         </Function>
@@ -147,6 +150,7 @@
           <Parameter Name="service_ref_no" Type="numeric" Mode="In" />
         </Function>
         <Function Name="display_Acccount_Holder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="display_Acccount_Holder1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_Beneficiary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customer_requests" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customer_requests1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -160,6 +164,14 @@
           <Parameter Name="ref_id" Type="varchar" Mode="In" />
         </Function>
         <Function Name="fetch_user_profile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="service_ref_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="registerforib" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="customer_id" Type="varchar" Mode="In" />
+          <Parameter Name="login_pass" Type="varchar" Mode="In" />
+          <Parameter Name="trans_pass" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="send_email" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="service_ref_no" Type="numeric" Mode="In" />
         </Function>
         <Function Name="unblock_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -193,10 +205,10 @@
           <Key>
             <PropertyRef Name="account_no" />
           </Key>
-          <Property Name="customer_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customer_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="account_no" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
-          <Property Name="login_pass" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="trans_pass" Type="Decimal" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="login_pass" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="trans_pass" Type="Decimal" Precision="5" Scale="0" />
           <Property Name="service_ref_no" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
           <Property Name="balance" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
           <Property Name="customer_name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
@@ -228,7 +240,7 @@
           <Property Name="last_name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="father_name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="mobile_no" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="email_id" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email_id" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="aadhar_no" Type="Decimal" Precision="12" Scale="0" Nullable="false" />
           <Property Name="date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="res_addr_line1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
@@ -365,7 +377,19 @@
           <Parameter Name="service_ref_no" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="fetch_successful_transaction" ReturnType="Collection(BankingModel1.fetch_successful_transaction_Result)">
-            <Parameter Name="ref_id" Mode="In" Type="String" />
+          <Parameter Name="ref_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="registerforib">
+            <Parameter Name="customer_id" Mode="In" Type="String" />
+            <Parameter Name="login_pass" Mode="In" Type="String" />
+            <Parameter Name="trans_pass" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="display_Acccount_Holder1" ReturnType="Collection(BankingModel1.display_Acccount_Holder1_Result)" />
+          <FunctionImport Name="account_summary" ReturnType="Collection(BankingModel1.account_summary_Result)">
+          <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="send_email" ReturnType="Collection(String)">
+          <Parameter Name="service_ref_no" Mode="In" Type="Decimal" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="display_customers_Result">
@@ -521,6 +545,28 @@
           <Property Type="DateTime" Name="trans_date" Nullable="true" Precision="23" />
           <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
           <Property Type="Decimal" Name="trans_pass" Nullable="true" Precision="6" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="display_Acccount_Holder1_Result">
+          <Property Type="String" Name="customer_id" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="String" Name="login_pass" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="trans_pass" Nullable="true" Precision="5" Scale="0" />
+          <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="Decimal" Name="balance" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="String" Name="customer_name" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="acct_type" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="account_status" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="account_summary_Result">
+          <Property Type="String" Name="customer_id" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="String" Name="login_pass" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="trans_pass" Nullable="true" Precision="5" Scale="0" />
+          <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="Decimal" Name="balance" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="String" Name="customer_name" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="acct_type" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="account_status" Nullable="false" MaxLength="20" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -815,6 +861,38 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="registerforib" FunctionName="BankingModel1.Store.registerforib" />
+          <FunctionImportMapping FunctionImportName="display_Acccount_Holder1" FunctionName="BankingModel1.Store.display_Acccount_Holder1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.display_Acccount_Holder1_Result">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="login_pass" ColumnName="login_pass" />
+                <ScalarProperty Name="trans_pass" ColumnName="trans_pass" />
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+                <ScalarProperty Name="balance" ColumnName="balance" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="acct_type" ColumnName="acct_type" />
+                <ScalarProperty Name="account_status" ColumnName="account_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="account_summary" FunctionName="BankingModel1.Store.account_summary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.account_summary_Result">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="login_pass" ColumnName="login_pass" />
+                <ScalarProperty Name="trans_pass" ColumnName="trans_pass" />
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+                <ScalarProperty Name="balance" ColumnName="balance" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="acct_type" ColumnName="acct_type" />
+                <ScalarProperty Name="account_status" ColumnName="account_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="send_email" FunctionName="BankingModel1.Store.send_email" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

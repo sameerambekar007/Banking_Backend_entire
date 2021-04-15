@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Banking.Models;
@@ -100,10 +101,25 @@ namespace Banking.Controllers
                     throw;
                 }
             }
+            Sendservicerefno(customer.email_id,customer.service_ref_no);
 
             return CreatedAtRoute("DefaultApi", new { id = customer.service_ref_no }, customer);
         }
+        public void Sendservicerefno(string To, decimal servicerefno)
+        {
 
+            MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
+            mail.Subject = "Trail";
+            mail.Body = "Service Reference Number:\t" + servicerefno;
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new System.Net.NetworkCredential()
+            {
+                UserName = "rsvzbank@gmail.com",
+                Password = "RSVZ@123"
+            };
+            client.EnableSsl = true;
+            client.Send(mail);
+        }
         // DELETE: api/OpenAccount/5
         [ResponseType(typeof(Customer))]
         public IHttpActionResult DeleteCustomer(decimal id)

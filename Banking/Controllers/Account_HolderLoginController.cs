@@ -19,7 +19,7 @@ namespace Banking.Controllers
         // GET: api/Account_HolderLogin
         public IHttpActionResult GetAccount_Holder()
         {
-            return Ok(db.display_Acccount_Holder());
+            return Ok(db.display_Acccount_Holder1());
         }
 
         // GET: api/Account_HolderLogin/5

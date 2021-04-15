@@ -6,6 +6,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Banking.Models;
@@ -20,7 +22,7 @@ namespace Banking.Controllers
         // GET: api/Account_HolderInsert
         public IHttpActionResult GetAccount_Holder()
         {
-            return Ok(db.display_Acccount_Holder());
+            return Ok(db.display_Acccount_Holder1());
         }
 
         // GET: api/Account_HolderInsert/5
@@ -75,20 +77,40 @@ namespace Banking.Controllers
         [ResponseType(typeof(Account_Holder))]
         public IHttpActionResult PostAccount_Holder(Account_Holder account_Holder)
         {
+           var email1= db.send_email(account_Holder.service_ref_no).FirstOrDefault(); 
+           
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var builder = new StringBuilder();
+            while (builder.Length < 16)
+            {
+                builder.Append(random.Next(10).ToString());
+            }
+            var c= Convert.ToString(builder);
+            var b = Decimal.Parse(c);
             // var result = db.Admins.Where(a => a.admin_id == admin.admin_id && a.admin_password == admin.admin_password).FirstOrDefault();
-            account_Holder.customer_id = random.Next(99999999).ToString();
-            account_Holder.account_no = random.Next(10000000,999999999);
+            account_Holder.customer_id = account_Holder.customer_name +"@" + random.Next(10000,99999).ToString();
+            account_Holder.account_no = b;
+            var optnetbanking = db.Customers.Where(a => a.service_ref_no == account_Holder.service_ref_no && a.opt_netbanking=="true").FirstOrDefault();
+            if(optnetbanking!=null)
+            { 
             account_Holder.login_pass = "RSVZ" + "@" + random.Next(10000).ToString();
-            account_Holder.trans_pass = random.Next(100000);
+            account_Holder.trans_pass = random.Next(10000,99999);
+            
+            }
             account_Holder.balance = 5000;
             account_Holder.account_status = "open";
-
+            if (optnetbanking != null)
+            {
+                SendMail(email1, account_Holder.customer_id, account_Holder.account_no, account_Holder.login_pass, account_Holder.trans_pass);
+            }
+            else { 
+                SendMail1(email1, account_Holder.customer_id, account_Holder.account_no);
+            }
             db.Account_Holder.Add(account_Holder);
-
+           
             try
             {
                 db.SaveChanges();
@@ -105,7 +127,41 @@ namespace Banking.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
+
+            return Ok(email1);
+        }
+        public void SendMail(string To,string custid,decimal accountno,string loginpass,decimal? transpass)
+        {
+          
+            MailMessage mail = new MailMessage("rsvzbank@gmail.com",To);
+            mail.Subject ="Trail";
+            mail.Body = "Customer Id:\t" + custid +
+                "\nAccount Number:\t" + accountno + "\nLogin Passwword:\t" + loginpass + "\nTransaction Password:\t" + transpass;
+            //Attachment attachment = new Attachment(@"");
+            //mail.Attachments.Add(attachment);
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new System.Net.NetworkCredential()
+            {
+                UserName = "rsvzbank@gmail.com",
+                Password = "RSVZ@123"
+            };
+            client.EnableSsl = true;
+            client.Send(mail);
+        }
+        public void SendMail1(string To, string custid, decimal accountno)
+        {
+
+            MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
+            mail.Subject = "Trail";
+            mail.Body = "Customer Id:\t" + custid + "\n Account Number:\t" + accountno;
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new System.Net.NetworkCredential()
+            {
+                UserName = "rsvzbank@gmail.com",
+                Password = "RSVZ@123"
+            };
+            client.EnableSsl = true;
+            client.Send(mail);
         }
         //[HttpPost]
         //public IHttpActionResult Get([FromBody] Customer customer)

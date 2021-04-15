@@ -24,7 +24,7 @@ namespace Banking.Models
         public string customer_id { get; set; }
         public decimal account_no { get; set; }
         public string login_pass { get; set; }
-        public decimal trans_pass { get; set; }
+        public Nullable<decimal> trans_pass { get; set; }
         public decimal service_ref_no { get; set; }
         public decimal balance { get; set; }
         public string customer_name { get; set; }

@@ -157,5 +157,45 @@ namespace Banking.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<fetch_successful_transaction_Result>("fetch_successful_transaction", ref_idParameter);
         }
+    
+        public virtual int registerforib(string customer_id, string login_pass, Nullable<decimal> trans_pass)
+        {
+            var customer_idParameter = customer_id != null ?
+                new ObjectParameter("customer_id", customer_id) :
+                new ObjectParameter("customer_id", typeof(string));
+    
+            var login_passParameter = login_pass != null ?
+                new ObjectParameter("login_pass", login_pass) :
+                new ObjectParameter("login_pass", typeof(string));
+    
+            var trans_passParameter = trans_pass.HasValue ?
+                new ObjectParameter("trans_pass", trans_pass) :
+                new ObjectParameter("trans_pass", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("registerforib", customer_idParameter, login_passParameter, trans_passParameter);
+        }
+    
+        public virtual ObjectResult<display_Acccount_Holder1_Result> display_Acccount_Holder1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<display_Acccount_Holder1_Result>("display_Acccount_Holder1");
+        }
+    
+        public virtual ObjectResult<account_summary_Result> account_summary(Nullable<decimal> account_no)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<account_summary_Result>("account_summary", account_noParameter);
+        }
+    
+        public virtual ObjectResult<string> send_email(Nullable<decimal> service_ref_no)
+        {
+            var service_ref_noParameter = service_ref_no.HasValue ?
+                new ObjectParameter("service_ref_no", service_ref_no) :
+                new ObjectParameter("service_ref_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("send_email", service_ref_noParameter);
+        }
     }
 }
