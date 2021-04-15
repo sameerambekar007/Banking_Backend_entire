@@ -10,9 +10,8 @@
 namespace Banking.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Transaction
+    public partial class fetch_successful_transaction_Result
     {
         public string ref_id { get; set; }
         public string mode { get; set; }
@@ -22,7 +21,5 @@ namespace Banking.Models
         public Nullable<System.DateTime> trans_date { get; set; }
         public string remarks { get; set; }
         public Nullable<decimal> trans_pass { get; set; }
-    
-        public virtual Account_Holder Account_Holder { get; set; }
     }
 }

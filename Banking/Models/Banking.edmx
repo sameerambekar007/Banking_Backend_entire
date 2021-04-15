@@ -89,8 +89,9 @@
           <Property Name="recipient_acct" Type="numeric" Precision="16" Scale="0" Nullable="false" />
           <Property Name="account_no" Type="numeric" Precision="16" Scale="0" Nullable="false" />
           <Property Name="amount" Type="numeric" Precision="15" Scale="0" Nullable="false" />
-          <Property Name="trans_date" Type="date" Nullable="false" />
+          <Property Name="trans_date" Type="datetime" />
           <Property Name="remarks" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="trans_pass" Type="numeric" Precision="6" Scale="0" />
         </EntityType>
         <Association Name="account_holder_foreign_key">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
@@ -128,8 +129,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="approve_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="service_ref_no" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="block_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="customer_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="credit_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+          <Parameter Name="balance" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="debit_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+          <Parameter Name="balance" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="decline_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="service_ref_no" Type="numeric" Mode="In" />
         </Function>
         <Function Name="display_Acccount_Holder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_Beneficiary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -137,6 +152,16 @@
         <Function Name="display_customer_requests1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_Transactions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="fetch_beneficiaries" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="fetch_pending_customer_requests" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="fetch_successful_transaction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ref_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="fetch_user_profile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="service_ref_no" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="unblock_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="customer_id" Type="varchar" Mode="In" />
         </Function>
@@ -246,9 +271,10 @@
           <Property Name="recipient_acct" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
           <Property Name="account_no" Type="Decimal" Precision="16" Scale="0" Nullable="false" />
           <Property Name="amount" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
-          <Property Name="trans_date" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="trans_date" Type="DateTime" Precision="3" />
           <Property Name="remarks" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Account_Holder" Relationship="Self.Transactions_foreign_key" FromRole="Transactions" ToRole="Account_Holder" />
+          <Property Name="trans_pass" Type="Decimal" Precision="6" Scale="0" />
         </EntityType>
         <Association Name="account_holder_foreign_key">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
@@ -312,10 +338,34 @@
           <FunctionImport Name="display_Beneficiary" ReturnType="Collection(BankingModel1.display_Beneficiary_Result)" />
           <FunctionImport Name="display_Transactions" ReturnType="Collection(BankingModel1.display_Transactions_Result)" />
           <FunctionImport Name="block_account">
-            <Parameter Name="customer_id" Mode="In" Type="String" />
+          <Parameter Name="customer_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="unblock_account">
-            <Parameter Name="customer_id" Mode="In" Type="String" />
+          <Parameter Name="customer_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="credit_account">
+            <Parameter Name="account_no" Mode="In" Type="Decimal" />
+            <Parameter Name="balance" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="debit_account">
+            <Parameter Name="account_no" Mode="In" Type="Decimal" />
+            <Parameter Name="balance" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="fetch_beneficiaries" ReturnType="Collection(BankingModel1.fetch_beneficiaries_Result)">
+          <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="fetch_pending_customer_requests" ReturnType="Collection(BankingModel1.fetch_pending_customer_requests_Result)" />
+          <FunctionImport Name="approve_account">
+          <Parameter Name="service_ref_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="decline_account">
+          <Parameter Name="service_ref_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="fetch_user_profile" ReturnType="Collection(BankingModel1.fetch_user_profile_Result)">
+          <Parameter Name="service_ref_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="fetch_successful_transaction" ReturnType="Collection(BankingModel1.fetch_successful_transaction_Result)">
+            <Parameter Name="ref_id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="display_customers_Result">
@@ -392,6 +442,85 @@
           <Property Type="Decimal" Name="amount" Nullable="false" Precision="15" Scale="0" />
           <Property Type="DateTime" Name="trans_date" Nullable="false" Precision="23" />
           <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="fetch_beneficiaries_Result">
+          <Property Type="Decimal" Name="ben_id" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="ben_name" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="ben_account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="String" Name="ben_nickname" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="fetch_pending_customer_requests_Result">
+          <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="String" Name="title" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="father_name" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="mobile_no" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="email_id" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="aadhar_no" Nullable="false" Precision="12" Scale="0" />
+          <Property Type="DateTime" Name="date_of_birth" Nullable="false" />
+          <Property Type="String" Name="res_addr_line1" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_addr_line2" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_landmark" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_state" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_city" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="res_pincode" Nullable="false" Precision="6" Scale="0" />
+          <Property Type="String" Name="perm_addr_line1" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_addr_line2" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_landmark" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_state" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_city" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="perm_pincode" Nullable="false" Precision="6" Scale="0" />
+          <Property Type="String" Name="occ_type" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="inc_source" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="gross_annual_inc" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="acct_type" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="opt_debit_card" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="opt_netbanking" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="acct_status" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="fetch_user_profile_Result">
+          <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="String" Name="title" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="father_name" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="mobile_no" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="email_id" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="aadhar_no" Nullable="false" Precision="12" Scale="0" />
+          <Property Type="DateTime" Name="date_of_birth" Nullable="false" />
+          <Property Type="String" Name="res_addr_line1" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_addr_line2" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_landmark" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_state" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="res_city" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="res_pincode" Nullable="false" Precision="6" Scale="0" />
+          <Property Type="String" Name="perm_addr_line1" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_addr_line2" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_landmark" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_state" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="perm_city" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="perm_pincode" Nullable="false" Precision="6" Scale="0" />
+          <Property Type="String" Name="occ_type" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="inc_source" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="gross_annual_inc" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="acct_type" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="opt_debit_card" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="opt_netbanking" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="acct_status" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="fetch_successful_transaction_Result">
+          <Property Type="String" Name="ref_id" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="mode" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="recipient_acct" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="DateTime" Name="trans_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="trans_pass" Nullable="true" Precision="6" Scale="0" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -474,6 +603,7 @@
           <EntitySetMapping Name="Transactions">
             <EntityTypeMapping TypeName="BankingModel1.Transaction">
               <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="trans_pass" ColumnName="trans_pass" />
                 <ScalarProperty Name="ref_id" ColumnName="ref_id" />
                 <ScalarProperty Name="mode" ColumnName="mode" />
                 <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
@@ -586,6 +716,105 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="block_account" FunctionName="BankingModel1.Store.block_account" />
           <FunctionImportMapping FunctionImportName="unblock_account" FunctionName="BankingModel1.Store.unblock_account" />
+          <FunctionImportMapping FunctionImportName="credit_account" FunctionName="BankingModel1.Store.credit_account" />
+          <FunctionImportMapping FunctionImportName="debit_account" FunctionName="BankingModel1.Store.debit_account" />
+          <FunctionImportMapping FunctionImportName="fetch_beneficiaries" FunctionName="BankingModel1.Store.fetch_beneficiaries">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.fetch_beneficiaries_Result">
+                <ScalarProperty Name="ben_id" ColumnName="ben_id" />
+                <ScalarProperty Name="ben_name" ColumnName="ben_name" />
+                <ScalarProperty Name="ben_account_no" ColumnName="ben_account_no" />
+                <ScalarProperty Name="ben_nickname" ColumnName="ben_nickname" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="fetch_pending_customer_requests" FunctionName="BankingModel1.Store.fetch_pending_customer_requests">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.fetch_pending_customer_requests_Result">
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="father_name" ColumnName="father_name" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="aadhar_no" ColumnName="aadhar_no" />
+                <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+                <ScalarProperty Name="res_addr_line1" ColumnName="res_addr_line1" />
+                <ScalarProperty Name="res_addr_line2" ColumnName="res_addr_line2" />
+                <ScalarProperty Name="res_landmark" ColumnName="res_landmark" />
+                <ScalarProperty Name="res_state" ColumnName="res_state" />
+                <ScalarProperty Name="res_city" ColumnName="res_city" />
+                <ScalarProperty Name="res_pincode" ColumnName="res_pincode" />
+                <ScalarProperty Name="perm_addr_line1" ColumnName="perm_addr_line1" />
+                <ScalarProperty Name="perm_addr_line2" ColumnName="perm_addr_line2" />
+                <ScalarProperty Name="perm_landmark" ColumnName="perm_landmark" />
+                <ScalarProperty Name="perm_state" ColumnName="perm_state" />
+                <ScalarProperty Name="perm_city" ColumnName="perm_city" />
+                <ScalarProperty Name="perm_pincode" ColumnName="perm_pincode" />
+                <ScalarProperty Name="occ_type" ColumnName="occ_type" />
+                <ScalarProperty Name="inc_source" ColumnName="inc_source" />
+                <ScalarProperty Name="gross_annual_inc" ColumnName="gross_annual_inc" />
+                <ScalarProperty Name="acct_type" ColumnName="acct_type" />
+                <ScalarProperty Name="opt_debit_card" ColumnName="opt_debit_card" />
+                <ScalarProperty Name="opt_netbanking" ColumnName="opt_netbanking" />
+                <ScalarProperty Name="acct_status" ColumnName="acct_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="approve_account" FunctionName="BankingModel1.Store.approve_account" />
+          <FunctionImportMapping FunctionImportName="decline_account" FunctionName="BankingModel1.Store.decline_account" />
+          <FunctionImportMapping FunctionImportName="fetch_user_profile" FunctionName="BankingModel1.Store.fetch_user_profile">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.fetch_user_profile_Result">
+                <ScalarProperty Name="service_ref_no" ColumnName="service_ref_no" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="father_name" ColumnName="father_name" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="aadhar_no" ColumnName="aadhar_no" />
+                <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+                <ScalarProperty Name="res_addr_line1" ColumnName="res_addr_line1" />
+                <ScalarProperty Name="res_addr_line2" ColumnName="res_addr_line2" />
+                <ScalarProperty Name="res_landmark" ColumnName="res_landmark" />
+                <ScalarProperty Name="res_state" ColumnName="res_state" />
+                <ScalarProperty Name="res_city" ColumnName="res_city" />
+                <ScalarProperty Name="res_pincode" ColumnName="res_pincode" />
+                <ScalarProperty Name="perm_addr_line1" ColumnName="perm_addr_line1" />
+                <ScalarProperty Name="perm_addr_line2" ColumnName="perm_addr_line2" />
+                <ScalarProperty Name="perm_landmark" ColumnName="perm_landmark" />
+                <ScalarProperty Name="perm_state" ColumnName="perm_state" />
+                <ScalarProperty Name="perm_city" ColumnName="perm_city" />
+                <ScalarProperty Name="perm_pincode" ColumnName="perm_pincode" />
+                <ScalarProperty Name="occ_type" ColumnName="occ_type" />
+                <ScalarProperty Name="inc_source" ColumnName="inc_source" />
+                <ScalarProperty Name="gross_annual_inc" ColumnName="gross_annual_inc" />
+                <ScalarProperty Name="acct_type" ColumnName="acct_type" />
+                <ScalarProperty Name="opt_debit_card" ColumnName="opt_debit_card" />
+                <ScalarProperty Name="opt_netbanking" ColumnName="opt_netbanking" />
+                <ScalarProperty Name="acct_status" ColumnName="acct_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="fetch_successful_transaction" FunctionName="BankingModel1.Store.fetch_successful_transaction">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.fetch_successful_transaction_Result">
+                <ScalarProperty Name="ref_id" ColumnName="ref_id" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="trans_pass" ColumnName="trans_pass" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

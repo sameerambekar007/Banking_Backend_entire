@@ -81,5 +81,81 @@ namespace Banking.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("unblock_account", customer_idParameter);
         }
+    
+        public virtual int credit_account(Nullable<decimal> account_no, Nullable<decimal> balance)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            var balanceParameter = balance.HasValue ?
+                new ObjectParameter("balance", balance) :
+                new ObjectParameter("balance", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("credit_account", account_noParameter, balanceParameter);
+        }
+    
+        public virtual int debit_account(Nullable<decimal> account_no, Nullable<decimal> balance)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            var balanceParameter = balance.HasValue ?
+                new ObjectParameter("balance", balance) :
+                new ObjectParameter("balance", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("debit_account", account_noParameter, balanceParameter);
+        }
+    
+        public virtual ObjectResult<fetch_beneficiaries_Result> fetch_beneficiaries(Nullable<decimal> account_no)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<fetch_beneficiaries_Result>("fetch_beneficiaries", account_noParameter);
+        }
+    
+        public virtual ObjectResult<fetch_pending_customer_requests_Result> fetch_pending_customer_requests()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<fetch_pending_customer_requests_Result>("fetch_pending_customer_requests");
+        }
+    
+        public virtual int approve_account(Nullable<decimal> service_ref_no)
+        {
+            var service_ref_noParameter = service_ref_no.HasValue ?
+                new ObjectParameter("service_ref_no", service_ref_no) :
+                new ObjectParameter("service_ref_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("approve_account", service_ref_noParameter);
+        }
+    
+        public virtual int decline_account(Nullable<decimal> service_ref_no)
+        {
+            var service_ref_noParameter = service_ref_no.HasValue ?
+                new ObjectParameter("service_ref_no", service_ref_no) :
+                new ObjectParameter("service_ref_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("decline_account", service_ref_noParameter);
+        }
+    
+        public virtual ObjectResult<fetch_user_profile_Result> fetch_user_profile(Nullable<decimal> service_ref_no)
+        {
+            var service_ref_noParameter = service_ref_no.HasValue ?
+                new ObjectParameter("service_ref_no", service_ref_no) :
+                new ObjectParameter("service_ref_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<fetch_user_profile_Result>("fetch_user_profile", service_ref_noParameter);
+        }
+    
+        public virtual ObjectResult<fetch_successful_transaction_Result> fetch_successful_transaction(string ref_id)
+        {
+            var ref_idParameter = ref_id != null ?
+                new ObjectParameter("ref_id", ref_id) :
+                new ObjectParameter("ref_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<fetch_successful_transaction_Result>("fetch_successful_transaction", ref_idParameter);
+        }
     }
 }

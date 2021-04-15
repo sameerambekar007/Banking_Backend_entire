@@ -12,19 +12,17 @@ using Banking.Models;
 
 namespace Banking.Controllers
 {
-    public class OpenAccountController : ApiController
+    public class FetchUserProfileController : ApiController
     {
-        public Random random = new Random();
         private BankingEntities1 db = new BankingEntities1();
 
-        // GET: api/OpenAccount
-        public IHttpActionResult GetCustomers()
+        // GET: api/FetchUserProfile
+        public IQueryable<Customer> GetCustomers()
         {
-            var products = db.fetch_pending_customer_requests().ToList();
-            return Ok(products);
+            return db.Customers;
         }
 
-        // GET: api/OpenAccount/5
+        // GET: api/FetchUserProfile/5
         [ResponseType(typeof(Customer))]
         public IHttpActionResult GetCustomer(decimal id)
         {
@@ -37,7 +35,7 @@ namespace Banking.Controllers
             return Ok(customer);
         }
 
-        // PUT: api/OpenAccount/5
+        // PUT: api/FetchUserProfile/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutCustomer(decimal id, Customer customer)
         {
@@ -72,39 +70,38 @@ namespace Banking.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/OpenAccount
+        // POST: api/FetchUserProfile
         [ResponseType(typeof(Customer))]
         public IHttpActionResult PostCustomer(Customer customer)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            customer.acct_status = "pending";
-            customer.service_ref_no = random.Next(100000000);
-           
-            db.Customers.Add(customer);
+            return Ok(db.fetch_user_profile(customer.service_ref_no));
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (CustomerExists(customer.service_ref_no))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //db.Customers.Add(customer);
 
-            return CreatedAtRoute("DefaultApi", new { id = customer.service_ref_no }, customer);
+            //try
+            //{
+            //    db.SaveChanges();
+            //}
+            //catch (DbUpdateException)
+            //{
+            //    if (CustomerExists(customer.service_ref_no))
+            //    {
+            //        return Conflict();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+           // return CreatedAtRoute("DefaultApi", new { id = customer.service_ref_no }, customer);
         }
 
-        // DELETE: api/OpenAccount/5
+        // DELETE: api/FetchUserProfile/5
         [ResponseType(typeof(Customer))]
         public IHttpActionResult DeleteCustomer(decimal id)
         {

@@ -79,24 +79,44 @@ namespace Banking.Controllers
             {
                 return BadRequest(ModelState);
             }
-            transaction.ref_id = "RefNEFT" + "@" + random.Next(10000, 99999).ToString();
-            transaction.mode = "neft";
-            db.Transactions.Add(transaction);
+            var validpassword = db.Account_Holder.Where(a => a.trans_pass == transaction.trans_pass && a.account_no == transaction.account_no).FirstOrDefault();
+            var insufficientamt = db.Account_Holder.Where(a => a.balance >= transaction.amount && a.account_no == transaction.account_no).FirstOrDefault();
+            if (validpassword != null && insufficientamt != null)
+            {
+                //transaction.ref_id = "RefNEFT" + "@" + random.Next(10000, 99999).ToString();
+                transaction.mode = "neft";
+                DateTime myDateTime = DateTime.Now;
+                transaction.trans_date = myDateTime;
+                db.debit_account(transaction.account_no, transaction.amount);
+                db.credit_account(transaction.recipient_acct, transaction.amount);
+                db.Transactions.Add(transaction);
 
-            try
-            {
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+
+                catch (DbUpdateException)
+                {
+                    if (TransactionExists(transaction.ref_id))
+                    {
+                        return Conflict();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return Ok("success");
             }
-            catch (DbUpdateException)
+
+            if (validpassword == null)
             {
-                if (TransactionExists(transaction.ref_id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return Ok("invalidpass");
+            }
+            if (insufficientamt == null)
+            {
+                return Ok("notenoughbalance");
             }
 
             return CreatedAtRoute("DefaultApi", new { id = transaction.ref_id }, transaction);

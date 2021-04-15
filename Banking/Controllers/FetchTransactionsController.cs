@@ -12,18 +12,17 @@ using Banking.Models;
 
 namespace Banking.Controllers
 {
-    public class ImpstransferController : ApiController
+    public class FetchTransactionsController : ApiController
     {
-        public Random random = new Random();
         private BankingEntities1 db = new BankingEntities1();
 
-        // GET: api/Impstransfer
-        public IHttpActionResult GetTransactions()
+        // GET: api/FetchTransactions
+        public IQueryable<Transaction> GetTransactions()
         {
-            return Ok(db.display_Transactions());
+            return db.Transactions;
         }
 
-        // GET: api/Impstransfer/5
+        // GET: api/FetchTransactions/5
         [ResponseType(typeof(Transaction))]
         public IHttpActionResult GetTransaction(string id)
         {
@@ -36,7 +35,7 @@ namespace Banking.Controllers
             return Ok(transaction);
         }
 
-        // PUT: api/Impstransfer/5
+        // PUT: api/FetchTransactions/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutTransaction(string id, Transaction transaction)
         {
@@ -71,57 +70,38 @@ namespace Banking.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Impstransfer
+        // POST: api/FetchTransactions
         [ResponseType(typeof(Transaction))]
         public IHttpActionResult PostTransaction(Transaction transaction)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var validpassword = db.Account_Holder.Where(a => a.trans_pass == transaction.trans_pass && a.account_no==transaction.account_no).FirstOrDefault();
-            var insufficientamt = db.Account_Holder.Where(a => a.balance >= transaction.amount && a.account_no == transaction.account_no).FirstOrDefault();
-            if (validpassword!= null && insufficientamt!=null)
-            {
-                //transaction.ref_id = "RefIMPS" + "@" + random.Next(10000, 99999).ToString();
-                transaction.mode = "imps";
-                DateTime myDateTime = DateTime.Now;
-                transaction.trans_date = myDateTime;
-                db.debit_account(transaction.account_no, transaction.amount);
-                db.credit_account(transaction.recipient_acct, transaction.amount);
-                db.Transactions.Add(transaction);
+            return Ok(db.fetch_successful_transaction(transaction.ref_id));
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-                try
-                {
-                    db.SaveChanges();
-                }
+            //db.Transactions.Add(transaction);
 
-                catch (DbUpdateException)
-                {
-                    if (TransactionExists(transaction.ref_id))
-                    {
-                        return Conflict();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return Ok("success");
-            }
-            
-            if(validpassword == null)
-            {
-                return Ok("invalidpass");
-            }
-            if (insufficientamt == null)
-            {
-                return Ok("notenoughbalance");
-            }
+            //try
+            //{
+            //    db.SaveChanges();
+            //}
+            //catch (DbUpdateException)
+            //{
+            //    if (TransactionExists(transaction.ref_id))
+            //    {
+            //        return Conflict();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
             return CreatedAtRoute("DefaultApi", new { id = transaction.ref_id }, transaction);
         }
 
-        // DELETE: api/Impstransfer/5
+        // DELETE: api/FetchTransactions/5
         [ResponseType(typeof(Transaction))]
         public IHttpActionResult DeleteTransaction(string id)
         {

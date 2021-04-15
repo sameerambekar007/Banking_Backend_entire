@@ -10,19 +10,13 @@
 namespace Banking.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Transaction
+    public partial class fetch_beneficiaries_Result
     {
-        public string ref_id { get; set; }
-        public string mode { get; set; }
-        public decimal recipient_acct { get; set; }
+        public decimal ben_id { get; set; }
+        public string ben_name { get; set; }
+        public decimal ben_account_no { get; set; }
+        public string ben_nickname { get; set; }
         public decimal account_no { get; set; }
-        public decimal amount { get; set; }
-        public Nullable<System.DateTime> trans_date { get; set; }
-        public string remarks { get; set; }
-        public Nullable<decimal> trans_pass { get; set; }
-    
-        public virtual Account_Holder Account_Holder { get; set; }
     }
 }
