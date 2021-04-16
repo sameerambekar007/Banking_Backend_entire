@@ -197,5 +197,130 @@ namespace Banking.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("send_email", service_ref_noParameter);
         }
+    
+        public virtual ObjectResult<display_Transactions1_Result> display_Transactions1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<display_Transactions1_Result>("display_Transactions1");
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> updated_balance(Nullable<decimal> account_no)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("updated_balance", account_noParameter);
+        }
+    
+        public virtual ObjectResult<transaction_between_twodates_Result> transaction_between_twodates(Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate, Nullable<decimal> account_no)
+        {
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("Fromdate", fromdate) :
+                new ObjectParameter("Fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(System.DateTime));
+    
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<transaction_between_twodates_Result>("transaction_between_twodates", fromdateParameter, todateParameter, account_noParameter);
+        }
+    
+        public virtual ObjectResult<transaction_between_twodates1_Result> transaction_between_twodates1(Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate, Nullable<decimal> account_no)
+        {
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("Fromdate", fromdate) :
+                new ObjectParameter("Fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(System.DateTime));
+    
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<transaction_between_twodates1_Result>("transaction_between_twodates1", fromdateParameter, todateParameter, account_noParameter);
+        }
+    
+        public virtual ObjectResult<transaction_between_twodates2_Result> transaction_between_twodates2(Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate, Nullable<decimal> account_no)
+        {
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("Fromdate", fromdate) :
+                new ObjectParameter("Fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(System.DateTime));
+    
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<transaction_between_twodates2_Result>("transaction_between_twodates2", fromdateParameter, todateParameter, account_noParameter);
+        }
+    
+        public virtual ObjectResult<transaction_between_twodatescredited_Result> transaction_between_twodatescredited(Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate, Nullable<decimal> account_no)
+        {
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("Fromdate", fromdate) :
+                new ObjectParameter("Fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(System.DateTime));
+    
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<transaction_between_twodatescredited_Result>("transaction_between_twodatescredited", fromdateParameter, todateParameter, account_noParameter);
+        }
+    
+        public virtual ObjectResult<transaction_between_twodates3_Result> transaction_between_twodates3(Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate, Nullable<decimal> account_no)
+        {
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("Fromdate", fromdate) :
+                new ObjectParameter("Fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(System.DateTime));
+    
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<transaction_between_twodates3_Result>("transaction_between_twodates3", fromdateParameter, todateParameter, account_noParameter);
+        }
+    
+        public virtual int change_password(Nullable<decimal> account_no, string login_pass)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            var login_passParameter = login_pass != null ?
+                new ObjectParameter("login_pass", login_pass) :
+                new ObjectParameter("login_pass", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("change_password", account_noParameter, login_passParameter);
+        }
+    
+        public virtual int change_trans_password(Nullable<decimal> account_no, Nullable<decimal> trans_pass)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            var trans_passParameter = trans_pass.HasValue ?
+                new ObjectParameter("trans_pass", trans_pass) :
+                new ObjectParameter("trans_pass", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("change_trans_password", account_noParameter, trans_passParameter);
+        }
     }
 }

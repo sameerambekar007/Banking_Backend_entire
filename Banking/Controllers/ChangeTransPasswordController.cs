@@ -12,17 +12,17 @@ using Banking.Models;
 
 namespace Banking.Controllers
 {
-    public class RegisterForIBController : ApiController
+    public class ChangeTransPasswordController : ApiController
     {
         private BankingEntities1 db = new BankingEntities1();
 
-        // GET: api/RegisterForIB
+        // GET: api/ChangeTransPassword
         public IQueryable<Account_Holder> GetAccount_Holder()
         {
             return db.Account_Holder;
         }
 
-        // GET: api/RegisterForIB/5
+        // GET: api/ChangeTransPassword/5
         [ResponseType(typeof(Account_Holder))]
         public IHttpActionResult GetAccount_Holder(decimal id)
         {
@@ -35,7 +35,7 @@ namespace Banking.Controllers
             return Ok(account_Holder);
         }
 
-        // PUT: api/RegisterForIB/5
+        // PUT: api/ChangeTransPassword/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutAccount_Holder(decimal id, Account_Holder account_Holder)
         {
@@ -70,25 +70,20 @@ namespace Banking.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/RegisterForIB
+        // POST: api/ChangeTransPassword
         [ResponseType(typeof(Account_Holder))]
-        public IHttpActionResult PostAccount_Holder(Account_Holder account_Holder)
+        public IHttpActionResult PostAccount_Holder(ChangeTransPassword changeTransPassword)
         {
-            var validate = db.Account_Holder.Where(a => a.account_no == account_Holder.account_no && a.customer_id == account_Holder.customer_id && a.login_pass ==null).FirstOrDefault();
-            var exists = db.Account_Holder.Where(a => a.account_no == account_Holder.account_no && a.customer_id == account_Holder.customer_id && a.login_pass != null).FirstOrDefault();
-            var invalid = db.Account_Holder.Where(a => a.account_no == account_Holder.account_no && a.customer_id == account_Holder.customer_id).FirstOrDefault();
-            if (validate!=null)
+            var result = db.Account_Holder.Where(a => a.account_no == changeTransPassword.account_no && a.trans_pass == changeTransPassword.trans_pass).FirstOrDefault();
+
+            if (result != null)
             {
-                db.registerforib(account_Holder.customer_id, account_Holder.login_pass, account_Holder.trans_pass);
+                db.change_trans_password(changeTransPassword.account_no, changeTransPassword.new_trans_pass);
                 return Ok("success");
             }
-           if(exists!=null)
+            else
             {
-                return Ok("exists");
-            }
-           if(invalid==null)
-            {
-                return Ok("invalid");
+                return Ok("fail");
             }
             //if (!ModelState.IsValid)
             //{
@@ -113,10 +108,10 @@ namespace Banking.Controllers
             //    }
             //}
 
-            return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
+            //return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
         }
 
-        // DELETE: api/RegisterForIB/5
+        // DELETE: api/ChangeTransPassword/5
         [ResponseType(typeof(Account_Holder))]
         public IHttpActionResult DeleteAccount_Holder(decimal id)
         {

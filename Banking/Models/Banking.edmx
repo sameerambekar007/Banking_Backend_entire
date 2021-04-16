@@ -92,6 +92,8 @@
           <Property Name="trans_date" Type="datetime" />
           <Property Name="remarks" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="trans_pass" Type="numeric" Precision="6" Scale="0" />
+          <Property Name="recipient_updated_credit" Type="numeric" Precision="15" Scale="0" />
+          <Property Name="sender_updated_debit" Type="numeric" Precision="15" Scale="0" />
         </EntityType>
         <Association Name="account_holder_foreign_key">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
@@ -138,6 +140,14 @@
         <Function Name="block_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="customer_id" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="change_password" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+          <Parameter Name="login_pass" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="change_trans_password" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+          <Parameter Name="trans_pass" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="credit_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="account_no" Type="numeric" Mode="In" />
           <Parameter Name="balance" Type="numeric" Mode="In" />
@@ -156,6 +166,7 @@
         <Function Name="display_customer_requests1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="display_Transactions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="display_Transactions1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="fetch_beneficiaries" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="account_no" Type="numeric" Mode="In" />
         </Function>
@@ -174,8 +185,36 @@
         <Function Name="send_email" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="service_ref_no" Type="numeric" Mode="In" />
         </Function>
+        <Function Name="transaction_between_twodates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="Todate" Type="datetime" Mode="In" />
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="transaction_between_twodates1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="Todate" Type="datetime" Mode="In" />
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="transaction_between_twodates2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="Todate" Type="datetime" Mode="In" />
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="transaction_between_twodates3" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="Todate" Type="datetime" Mode="In" />
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="transaction_between_twodatescredited" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="Todate" Type="datetime" Mode="In" />
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="unblock_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="customer_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="updated_balance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
         </Function>
         <EntityContainer Name="BankingModel1StoreContainer">
           <EntitySet Name="Account_Holder" EntityType="Self.Account_Holder" Schema="dbo" store:Type="Tables" />
@@ -287,6 +326,8 @@
           <Property Name="remarks" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Account_Holder" Relationship="Self.Transactions_foreign_key" FromRole="Transactions" ToRole="Account_Holder" />
           <Property Name="trans_pass" Type="Decimal" Precision="6" Scale="0" />
+          <Property Name="recipient_updated_credit" Type="Decimal" Precision="15" Scale="0" />
+          <Property Name="sender_updated_debit" Type="Decimal" Precision="15" Scale="0" />
         </EntityType>
         <Association Name="account_holder_foreign_key">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
@@ -390,6 +431,43 @@
           </FunctionImport>
           <FunctionImport Name="send_email" ReturnType="Collection(String)">
           <Parameter Name="service_ref_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="display_Transactions1" ReturnType="Collection(BankingModel1.display_Transactions1_Result)" />
+          <FunctionImport Name="updated_balance" ReturnType="Collection(Decimal)">
+          <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="transaction_between_twodates" ReturnType="Collection(BankingModel1.transaction_between_twodates_Result)">
+            <Parameter Name="Fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="Todate" Mode="In" Type="DateTime" />
+            <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="transaction_between_twodates1" ReturnType="Collection(BankingModel1.transaction_between_twodates1_Result)">
+            <Parameter Name="Fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="Todate" Mode="In" Type="DateTime" />
+            <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="transaction_between_twodates2" ReturnType="Collection(BankingModel1.transaction_between_twodates2_Result)">
+            <Parameter Name="Fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="Todate" Mode="In" Type="DateTime" />
+            <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="transaction_between_twodatescredited" ReturnType="Collection(BankingModel1.transaction_between_twodatescredited_Result)">
+            <Parameter Name="Fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="Todate" Mode="In" Type="DateTime" />
+            <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="transaction_between_twodates3" ReturnType="Collection(BankingModel1.transaction_between_twodates3_Result)">
+            <Parameter Name="Fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="Todate" Mode="In" Type="DateTime" />
+            <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="change_password">
+            <Parameter Name="account_no" Mode="In" Type="Decimal" />
+            <Parameter Name="login_pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="change_trans_password">
+            <Parameter Name="account_no" Mode="In" Type="Decimal" />
+            <Parameter Name="trans_pass" Mode="In" Type="Decimal" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="display_customers_Result">
@@ -568,6 +646,70 @@
           <Property Type="String" Name="acct_type" Nullable="false" MaxLength="15" />
           <Property Type="String" Name="account_status" Nullable="false" MaxLength="20" />
         </ComplexType>
+        <ComplexType Name="display_Transactions1_Result">
+          <Property Type="String" Name="ref_id" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="mode" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="recipient_acct" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="DateTime" Name="trans_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="trans_pass" Nullable="true" Precision="6" Scale="0" />
+          <Property Type="Decimal" Name="recipient_updated_credit" Nullable="true" Precision="15" Scale="0" />
+          <Property Type="Decimal" Name="sender_updated_debit" Nullable="true" Precision="15" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="transaction_between_twodates_Result">
+          <Property Type="String" Name="ref_id" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="mode" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="recipient_acct" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="DateTime" Name="trans_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="trans_pass" Nullable="true" Precision="6" Scale="0" />
+          <Property Type="Decimal" Name="recipient_updated_credit" Nullable="true" Precision="15" Scale="0" />
+          <Property Type="Decimal" Name="sender_updated_debit" Nullable="true" Precision="15" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="transaction_between_twodates1_Result">
+          <Property Type="String" Name="ref_id" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="mode" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="recipient_acct" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="DateTime" Name="trans_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="sender_updated_debit" Nullable="true" Precision="15" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="transaction_between_twodates2_Result">
+          <Property Type="String" Name="ref_id" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="mode" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="recipient_acct" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="DateTime" Name="trans_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="sender_updated_debit" Nullable="true" Precision="15" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="transaction_between_twodatescredited_Result">
+          <Property Type="String" Name="ref_id" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="mode" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="recipient_acct" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="DateTime" Name="trans_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="recipient_updated_credit" Nullable="true" Precision="15" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="transaction_between_twodates3_Result">
+          <Property Type="String" Name="ref_id" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="mode" Nullable="false" MaxLength="15" />
+          <Property Type="Decimal" Name="recipient_acct" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="account_no" Nullable="false" Precision="16" Scale="0" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="15" Scale="0" />
+          <Property Type="DateTime" Name="trans_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
+          <Property Type="Decimal" Name="recipient_updated_credit" Nullable="true" Precision="15" Scale="0" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -649,6 +791,8 @@
           <EntitySetMapping Name="Transactions">
             <EntityTypeMapping TypeName="BankingModel1.Transaction">
               <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="sender_updated_debit" ColumnName="sender_updated_debit" />
+                <ScalarProperty Name="recipient_updated_credit" ColumnName="recipient_updated_credit" />
                 <ScalarProperty Name="trans_pass" ColumnName="trans_pass" />
                 <ScalarProperty Name="ref_id" ColumnName="ref_id" />
                 <ScalarProperty Name="mode" ColumnName="mode" />
@@ -893,6 +1037,97 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="send_email" FunctionName="BankingModel1.Store.send_email" />
+          <FunctionImportMapping FunctionImportName="display_Transactions1" FunctionName="BankingModel1.Store.display_Transactions1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.display_Transactions1_Result">
+                <ScalarProperty Name="ref_id" ColumnName="ref_id" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="trans_pass" ColumnName="trans_pass" />
+                <ScalarProperty Name="recipient_updated_credit" ColumnName="recipient_updated_credit" />
+                <ScalarProperty Name="sender_updated_debit" ColumnName="sender_updated_debit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="updated_balance" FunctionName="BankingModel1.Store.updated_balance" />
+          <FunctionImportMapping FunctionImportName="transaction_between_twodates" FunctionName="BankingModel1.Store.transaction_between_twodates">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.transaction_between_twodates_Result">
+                <ScalarProperty Name="ref_id" ColumnName="ref_id" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="trans_pass" ColumnName="trans_pass" />
+                <ScalarProperty Name="recipient_updated_credit" ColumnName="recipient_updated_credit" />
+                <ScalarProperty Name="sender_updated_debit" ColumnName="sender_updated_debit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="transaction_between_twodates1" FunctionName="BankingModel1.Store.transaction_between_twodates1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.transaction_between_twodates1_Result">
+                <ScalarProperty Name="ref_id" ColumnName="ref_id" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="sender_updated_debit" ColumnName="sender_updated_debit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="transaction_between_twodates2" FunctionName="BankingModel1.Store.transaction_between_twodates2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.transaction_between_twodates2_Result">
+                <ScalarProperty Name="ref_id" ColumnName="ref_id" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="sender_updated_debit" ColumnName="sender_updated_debit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="transaction_between_twodatescredited" FunctionName="BankingModel1.Store.transaction_between_twodatescredited">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.transaction_between_twodatescredited_Result">
+                <ScalarProperty Name="ref_id" ColumnName="ref_id" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="recipient_updated_credit" ColumnName="recipient_updated_credit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="transaction_between_twodates3" FunctionName="BankingModel1.Store.transaction_between_twodates3">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BankingModel1.transaction_between_twodates3_Result">
+                <ScalarProperty Name="ref_id" ColumnName="ref_id" />
+                <ScalarProperty Name="mode" ColumnName="mode" />
+                <ScalarProperty Name="recipient_acct" ColumnName="recipient_acct" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="recipient_updated_credit" ColumnName="recipient_updated_credit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="change_password" FunctionName="BankingModel1.Store.change_password" />
+          <FunctionImportMapping FunctionImportName="change_trans_password" FunctionName="BankingModel1.Store.change_trans_password" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

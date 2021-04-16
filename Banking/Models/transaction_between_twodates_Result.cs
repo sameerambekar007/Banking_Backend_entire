@@ -10,9 +10,8 @@
 namespace Banking.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Transaction
+    public partial class transaction_between_twodates_Result
     {
         public string ref_id { get; set; }
         public string mode { get; set; }
@@ -24,7 +23,5 @@ namespace Banking.Models
         public Nullable<decimal> trans_pass { get; set; }
         public Nullable<decimal> recipient_updated_credit { get; set; }
         public Nullable<decimal> sender_updated_debit { get; set; }
-    
-        public virtual Account_Holder Account_Holder { get; set; }
     }
 }

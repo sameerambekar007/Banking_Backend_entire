@@ -20,7 +20,7 @@ namespace Banking.Controllers
         // GET: api/Impstransfer
         public IHttpActionResult GetTransactions()
         {
-            return Ok(db.display_Transactions());
+            return Ok(db.display_Transactions1());
         }
 
         // GET: api/Impstransfer/5
@@ -89,6 +89,8 @@ namespace Banking.Controllers
                 transaction.trans_date = myDateTime;
                 db.debit_account(transaction.account_no, transaction.amount);
                 db.credit_account(transaction.recipient_acct, transaction.amount);
+                transaction.sender_updated_debit = db.updated_balance(transaction.account_no).FirstOrDefault();
+                transaction.recipient_updated_credit = db.updated_balance(transaction.recipient_acct).FirstOrDefault();
                 db.Transactions.Add(transaction);
 
                 try
