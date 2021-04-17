@@ -177,6 +177,19 @@
         <Function Name="fetch_user_profile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="service_ref_no" Type="numeric" Mode="In" />
         </Function>
+        <Function Name="fetchcustomerid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="fetchemail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="fetchpassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="fetchtotp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="insertotp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="otp" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="registerforib" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="customer_id" Type="varchar" Mode="In" />
           <Parameter Name="login_pass" Type="varchar" Mode="In" />
@@ -468,6 +481,19 @@
           <FunctionImport Name="change_trans_password">
             <Parameter Name="account_no" Mode="In" Type="Decimal" />
             <Parameter Name="trans_pass" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="fetchcustomerid" ReturnType="Collection(String)">
+          <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="fetchemail" ReturnType="Collection(String)">
+          <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="fetchpassword" ReturnType="Collection(String)">
+          <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="fetchtotp" ReturnType="Collection(Decimal)" />
+          <FunctionImport Name="insertotp">
+            <Parameter Name="otp" Mode="In" Type="Decimal" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="display_customers_Result">
@@ -1128,6 +1154,11 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="change_password" FunctionName="BankingModel1.Store.change_password" />
           <FunctionImportMapping FunctionImportName="change_trans_password" FunctionName="BankingModel1.Store.change_trans_password" />
+          <FunctionImportMapping FunctionImportName="fetchcustomerid" FunctionName="BankingModel1.Store.fetchcustomerid" />
+          <FunctionImportMapping FunctionImportName="fetchemail" FunctionName="BankingModel1.Store.fetchemail" />
+          <FunctionImportMapping FunctionImportName="fetchpassword" FunctionName="BankingModel1.Store.fetchpassword" />
+          <FunctionImportMapping FunctionImportName="fetchtotp" FunctionName="BankingModel1.Store.fetchtotp" />
+          <FunctionImportMapping FunctionImportName="insertotp" FunctionName="BankingModel1.Store.insertotp" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

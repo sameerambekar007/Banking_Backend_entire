@@ -185,6 +185,10 @@
     <Compile Include="Controllers\DeclineAccountController.cs" />
     <Compile Include="Controllers\FetchTransactionsController.cs" />
     <Compile Include="Controllers\FetchUserProfileController.cs" />
+    <Compile Include="Controllers\ForgotCustomerId.cs" />
+    <Compile Include="Controllers\ForgotCustomerIdController.cs" />
+    <Compile Include="Controllers\ForgotPassword.cs" />
+    <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\GetRelevantBeneficiariesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImpstransferController.cs" />

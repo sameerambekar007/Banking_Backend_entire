@@ -322,5 +322,46 @@ namespace Banking.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("change_trans_password", account_noParameter, trans_passParameter);
         }
+    
+        public virtual ObjectResult<string> fetchcustomerid(Nullable<decimal> account_no)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("fetchcustomerid", account_noParameter);
+        }
+    
+        public virtual ObjectResult<string> fetchemail(Nullable<decimal> account_no)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("fetchemail", account_noParameter);
+        }
+    
+        public virtual ObjectResult<string> fetchpassword(Nullable<decimal> account_no)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("fetchpassword", account_noParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> fetchtotp()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("fetchtotp");
+        }
+    
+        public virtual int insertotp(Nullable<decimal> otp)
+        {
+            var otpParameter = otp.HasValue ?
+                new ObjectParameter("otp", otp) :
+                new ObjectParameter("otp", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertotp", otpParameter);
+        }
     }
 }

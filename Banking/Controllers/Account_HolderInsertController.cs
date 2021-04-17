@@ -20,6 +20,7 @@ namespace Banking.Controllers
         private BankingEntities1 db = new BankingEntities1();
 
         // GET: api/Account_HolderInsert
+       // [Route("customers/orders")]
         public IHttpActionResult GetAccount_Holder()
         {
             return Ok(db.display_Acccount_Holder1());
