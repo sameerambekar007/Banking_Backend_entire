@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Banking.Models;
@@ -109,6 +110,8 @@ namespace Banking.Controllers
                         throw;
                     }
                 }
+                Sendimpssuccessdebited(db.fetchemail(transaction.account_no).FirstOrDefault(), transaction.ref_id, transaction.amount, transaction.mode, transaction.recipient_acct, transaction.trans_date, transaction.remarks);
+                Sendimpssuccesscredited(db.fetchemail(transaction.recipient_acct).FirstOrDefault(), transaction.ref_id, transaction.amount, transaction.mode, transaction.account_no, transaction.trans_date, transaction.remarks);
                 return Ok("success");
             }
             
@@ -122,7 +125,40 @@ namespace Banking.Controllers
             }
             return CreatedAtRoute("DefaultApi", new { id = transaction.ref_id }, transaction);
         }
+        public void Sendimpssuccessdebited(string To,string ref_id,decimal? amount, string mode, decimal? account_no, DateTime? tdate, string remarks)
+        {
 
+            MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
+            mail.Subject = "Transaction Successful!" + "Your account has been debited by\t" + amount;
+            mail.Body = "Transaction Reference id\t" + ref_id + "\n Amount\t" + amount + "\nMode of transaction\t" + mode + "\n Recepient Account\t" + account_no + "\nTransaction time\t" + tdate + "\n Remarks\t" + remarks;
+            mail.Attachments.Add(new Attachment("C:/Users/devil/Downloads/2.png"));
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new System.Net.NetworkCredential()
+            {
+                UserName = "rsvzbank@gmail.com",
+                Password = "RSVZ@123"
+            };
+            client.EnableSsl = true;
+            client.Send(mail);
+        }
+        public void Sendimpssuccesscredited(string To, string ref_id, decimal? amount, string mode, decimal? account_no, DateTime? tdate, string remarks)
+        {
+                
+            MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
+            mail.Subject = "Transaction Successful!" + "Your account has been credited by\t" + amount;
+            mail.Body = "Transaction Reference id\t" + ref_id + "\n Amount\t" + amount + "Mode of transaction\t" + mode + "\n Sender Account number\t" + account_no + "Transaction time\t" + tdate + "\n Remarks\t" + remarks;
+            //Attachment attachment = new Attachment(@"");
+            mail.Attachments.Add(new Attachment("C:/Users/devil/Downloads/2.png"));
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new System.Net.NetworkCredential()
+            {
+                UserName = "rsvzbank@gmail.com",
+                Password = "RSVZ@123"
+            };
+            client.EnableSsl = true;
+            client.Send(mail);
+        }
+        
         // DELETE: api/Impstransfer/5
         [ResponseType(typeof(Transaction))]
         public IHttpActionResult DeleteTransaction(string id)

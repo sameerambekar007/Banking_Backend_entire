@@ -33,6 +33,7 @@ namespace Banking.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<Otpgeneration> Otpgenerations { get; set; }
     
         public virtual ObjectResult<display_customers_Result> display_customers()
         {
@@ -73,13 +74,13 @@ namespace Banking.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("block_account", customer_idParameter);
         }
     
-        public virtual int unblock_account(string customer_id)
+        public virtual int unblock_account(Nullable<decimal> account_no)
         {
-            var customer_idParameter = customer_id != null ?
-                new ObjectParameter("customer_id", customer_id) :
-                new ObjectParameter("customer_id", typeof(string));
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("unblock_account", customer_idParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("unblock_account", account_noParameter);
         }
     
         public virtual int credit_account(Nullable<decimal> account_no, Nullable<decimal> balance)
@@ -362,6 +363,24 @@ namespace Banking.Models
                 new ObjectParameter("otp", typeof(decimal));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertotp", otpParameter);
+        }
+    
+        public virtual int unblock_account1(Nullable<decimal> account_no)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("unblock_account1", account_noParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> fetchtranspassword(Nullable<decimal> account_no)
+        {
+            var account_noParameter = account_no.HasValue ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("fetchtranspassword", account_noParameter);
         }
     }
 }

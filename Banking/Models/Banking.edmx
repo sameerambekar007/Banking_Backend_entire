@@ -70,6 +70,12 @@
           <Property Name="opt_netbanking" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="acct_status" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <EntityType Name="Otpgeneration">
+          <Key>
+            <PropertyRef Name="otp" />
+          </Key>
+          <Property Name="otp" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -187,6 +193,9 @@
           <Parameter Name="account_no" Type="numeric" Mode="In" />
         </Function>
         <Function Name="fetchtotp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="fetchtranspassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="insertotp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="otp" Type="numeric" Mode="In" />
         </Function>
@@ -224,7 +233,10 @@
           <Parameter Name="account_no" Type="numeric" Mode="In" />
         </Function>
         <Function Name="unblock_account" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="customer_id" Type="varchar" Mode="In" />
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="unblock_account1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_no" Type="numeric" Mode="In" />
         </Function>
         <Function Name="updated_balance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="account_no" Type="numeric" Mode="In" />
@@ -234,6 +246,7 @@
           <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Beneficiary" EntityType="Self.Beneficiary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Otpgeneration" EntityType="Self.Otpgeneration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="account_holder_foreign_key" Association="Self.account_holder_foreign_key">
@@ -407,7 +420,7 @@
           <Parameter Name="customer_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="unblock_account">
-          <Parameter Name="customer_id" Mode="In" Type="String" />
+          <Parameter Name="account_no" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="credit_account">
             <Parameter Name="account_no" Mode="In" Type="Decimal" />
@@ -493,8 +506,15 @@
           </FunctionImport>
           <FunctionImport Name="fetchtotp" ReturnType="Collection(Decimal)" />
           <FunctionImport Name="insertotp">
-            <Parameter Name="otp" Mode="In" Type="Decimal" />
+          <Parameter Name="otp" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <FunctionImport Name="unblock_account1">
+          <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="fetchtranspassword" ReturnType="Collection(Decimal)">
+          <Parameter Name="account_no" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="Otpgenerations" EntityType="BankingModel1.Otpgeneration" />
         </EntityContainer>
         <ComplexType Name="display_customers_Result">
           <Property Type="Decimal" Name="service_ref_no" Nullable="false" Precision="15" Scale="0" />
@@ -736,6 +756,12 @@
           <Property Type="String" Name="remarks" Nullable="false" MaxLength="25" />
           <Property Type="Decimal" Name="recipient_updated_credit" Nullable="true" Precision="15" Scale="0" />
         </ComplexType>
+        <EntityType Name="Otpgeneration">
+          <Key>
+            <PropertyRef Name="otp" />
+          </Key>
+          <Property Name="otp" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1159,6 +1185,15 @@
           <FunctionImportMapping FunctionImportName="fetchpassword" FunctionName="BankingModel1.Store.fetchpassword" />
           <FunctionImportMapping FunctionImportName="fetchtotp" FunctionName="BankingModel1.Store.fetchtotp" />
           <FunctionImportMapping FunctionImportName="insertotp" FunctionName="BankingModel1.Store.insertotp" />
+          <FunctionImportMapping FunctionImportName="unblock_account1" FunctionName="BankingModel1.Store.unblock_account1" />
+          <FunctionImportMapping FunctionImportName="fetchtranspassword" FunctionName="BankingModel1.Store.fetchtranspassword" />
+          <EntitySetMapping Name="Otpgenerations">
+            <EntityTypeMapping TypeName="BankingModel1.Otpgeneration">
+              <MappingFragment StoreEntitySet="Otpgeneration">
+                <ScalarProperty Name="otp" ColumnName="otp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

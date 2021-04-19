@@ -13,18 +13,18 @@ using Banking.Models;
 
 namespace Banking.Controllers
 {
-    public class ForgotPasswordController : ApiController
+    public class ForgotTransPasswordController : ApiController
     {
         public Random random = new Random();
         private BankingEntities1 db = new BankingEntities1();
 
-        // GET: api/ForgotPassword
+        // GET: api/ForgotTransPassword
         public IQueryable<Account_Holder> GetAccount_Holder()
         {
             return db.Account_Holder;
         }
 
-        // GET: api/ForgotPassword/5
+        // GET: api/ForgotTransPassword/5
         [ResponseType(typeof(Account_Holder))]
         public IHttpActionResult GetAccount_Holder(decimal id)
         {
@@ -37,7 +37,7 @@ namespace Banking.Controllers
             return Ok(account_Holder);
         }
 
-        // PUT: api/ForgotPassword/5
+        // PUT: api/ForgotTransPassword/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutAccount_Holder(decimal id, Account_Holder account_Holder)
         {
@@ -72,15 +72,15 @@ namespace Banking.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/ForgotPassword
+        // POST: api/ForgotTransPassword
         [ResponseType(typeof(Account_Holder))]
-        public IHttpActionResult PostAccount_Holder(ForgotPassword forgotPassword)
+        public IHttpActionResult PostAccount_Holder(ForgotTranspassword forgotTransPassword)
         {
-            if (forgotPassword.email_id == db.fetchemail(forgotPassword.account_no).FirstOrDefault())
+            if (forgotTransPassword.email_id == db.fetchemail(forgotTransPassword.account_no).FirstOrDefault())
             {
                 int onetimepassword = random.Next(10000, 99999);
                 db.insertotp(onetimepassword);
-                SendOtpforpasssword(forgotPassword.email_id, onetimepassword);
+                SendOtpforTranspasssword(forgotTransPassword.email_id, onetimepassword);
                 return Ok("otp sent");
             }
             else
@@ -110,17 +110,16 @@ namespace Banking.Controllers
             //    }
             //}
 
-            //return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
+            // return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
         }
-        [Route("Api/sendpassword")]
+        [Route("Api/sendTranspassword")]
         [ResponseType(typeof(Account_Holder))]
-        public IHttpActionResult PostAccount_Holder1(ForgotPassword forgotPassword)
+        public IHttpActionResult PostAccount_Holder1(ForgotTranspassword forgotTransPassword)
         {
             decimal? a = db.fetchtotp().FirstOrDefault();
-            if (forgotPassword.otp == a)
+            if (forgotTransPassword.otp == a)
             {
-                Sendpassword(forgotPassword.email_id, db.fetchpassword(forgotPassword.account_no).FirstOrDefault());
-                db.unblock_account1(forgotPassword.account_no);
+                SendTranspassword(forgotTransPassword.email_id, db.fetchtranspassword(forgotTransPassword.account_no).FirstOrDefault());
                 return Ok("success");
             }
             else
@@ -152,7 +151,7 @@ namespace Banking.Controllers
 
             //return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
         }
-        public void SendOtpforpasssword(string To, decimal otp)
+        public void SendOtpforTranspasssword(string To, decimal otp)
         {
 
             MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
@@ -167,12 +166,12 @@ namespace Banking.Controllers
             client.EnableSsl = true;
             client.Send(mail);
         }
-        public void Sendpassword(string To, string password)
+        public void SendTranspassword(string To, decimal? transpassword)
         {
 
             MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
             mail.Subject = "OTP for verification";
-            mail.Body = "Login Password:\t" + password;
+            mail.Body = "Transaction Password:\t" + transpassword;
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential()
             {
@@ -184,7 +183,7 @@ namespace Banking.Controllers
         }
 
 
-        // DELETE: api/ForgotPassword/5
+        // DELETE: api/ForgotTransPassword/5
         [ResponseType(typeof(Account_Holder))]
         public IHttpActionResult DeleteAccount_Holder(decimal id)
         {

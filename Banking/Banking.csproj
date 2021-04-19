@@ -189,11 +189,14 @@
     <Compile Include="Controllers\ForgotCustomerIdController.cs" />
     <Compile Include="Controllers\ForgotPassword.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
+    <Compile Include="Controllers\ForgotTranspassword.cs" />
+    <Compile Include="Controllers\ForgotTransPasswordController.cs" />
     <Compile Include="Controllers\GetRelevantBeneficiariesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImpstransferController.cs" />
     <Compile Include="Controllers\NefttransferController.cs" />
     <Compile Include="Controllers\OpenAccountController.cs" />
+    <Compile Include="Controllers\RegisterForIB.cs" />
     <Compile Include="Controllers\RegisterForIBController.cs" />
     <Compile Include="Controllers\RtgstransferController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -264,6 +267,9 @@
       <DependentUpon>Banking.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\fetch_user_profile_Result.cs">
+      <DependentUpon>Banking.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Otpgeneration.cs">
       <DependentUpon>Banking.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">

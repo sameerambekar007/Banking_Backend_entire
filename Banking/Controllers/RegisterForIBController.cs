@@ -72,14 +72,14 @@ namespace Banking.Controllers
 
         // POST: api/RegisterForIB
         [ResponseType(typeof(Account_Holder))]
-        public IHttpActionResult PostAccount_Holder(Account_Holder account_Holder)
+        public IHttpActionResult PostAccount_Holder(RegisterForIB registerForIB)
         {
-            var validate = db.Account_Holder.Where(a => a.account_no == account_Holder.account_no && a.customer_id == account_Holder.customer_id && a.login_pass ==null).FirstOrDefault();
-            var exists = db.Account_Holder.Where(a => a.account_no == account_Holder.account_no && a.customer_id == account_Holder.customer_id && a.login_pass != null).FirstOrDefault();
-            var invalid = db.Account_Holder.Where(a => a.account_no == account_Holder.account_no && a.customer_id == account_Holder.customer_id).FirstOrDefault();
+            var validate = db.Account_Holder.Where(a => a.account_no == registerForIB.account_no && a.customer_id == registerForIB.customer_id && a.login_pass ==null).FirstOrDefault();
+            var exists = db.Account_Holder.Where(a => a.account_no == registerForIB.account_no && a.customer_id == registerForIB.customer_id && a.login_pass != null).FirstOrDefault();
+            var invalid = db.Account_Holder.Where(a => a.account_no == registerForIB.account_no && a.customer_id == registerForIB.customer_id).FirstOrDefault();
             if (validate!=null)
             {
-                db.registerforib(account_Holder.customer_id, account_Holder.login_pass, account_Holder.trans_pass);
+                db.registerforib(registerForIB.customer_id, registerForIB.login_pass, registerForIB.trans_pass);
                 return Ok("success");
             }
            if(exists!=null)
@@ -90,6 +90,7 @@ namespace Banking.Controllers
             {
                 return Ok("invalid");
             }
+            return Ok();
             //if (!ModelState.IsValid)
             //{
             //    return BadRequest(ModelState);
@@ -113,7 +114,7 @@ namespace Banking.Controllers
             //    }
             //}
 
-            return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
+           // return CreatedAtRoute("DefaultApi", new { id = account_Holder.account_no }, account_Holder);
         }
 
         // DELETE: api/RegisterForIB/5
