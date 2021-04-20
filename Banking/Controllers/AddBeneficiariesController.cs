@@ -75,6 +75,11 @@ namespace Banking.Controllers
         [ResponseType(typeof(Beneficiary))]
         public IHttpActionResult PostBeneficiary(Beneficiary beneficiary)
         {
+            var exists = db.Beneficiaries.Where(a => a.account_no == beneficiary.account_no && a.ben_account_no == beneficiary.ben_account_no).FirstOrDefault();
+            if(exists!=null)
+            {
+                return Ok("exists");
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

@@ -109,8 +109,9 @@ namespace Banking.Controllers
         {
 
             MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
-            mail.Subject = "Trail";
-            mail.Body = "Service Reference Number:\t" + servicerefno;
+            mail.Subject = "Account Opening Request Received!";
+            mail.Body = "Your request for opening an account with RSVZ Bank has been received\n Please use following service number to track the status of your account\n Service Reference Number:\t" + servicerefno +
+                "\nPlease visit rsvz.com to explore exciting services provided by RSVZ";
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential()
             {

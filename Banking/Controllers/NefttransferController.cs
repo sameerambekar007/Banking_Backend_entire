@@ -147,7 +147,7 @@ namespace Banking.Controllers
 
             MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
             mail.Subject = "Transaction Successful!" + "Your account has been credited by\t" + amount;
-            mail.Body = "Transaction Reference id\t" + ref_id + "\n Amount\t" + amount + "Mode of transaction\t" + mode + "\n Sender Account number\t" + account_no + "Transaction time\t" + tdate + "\n Remarks\t" + remarks;
+            mail.Body = "Transaction Reference id\t" + ref_id + "\n Amount\t" + amount + "\nMode of transaction\t" + mode + "\n Sender Account number\t" + account_no + "\nTransaction time\t" + tdate + "\n Remarks\t" + remarks;
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential()
             {

@@ -102,6 +102,11 @@ namespace Banking.Controllers
         [HttpPost]
         public IHttpActionResult Get([FromBody] Account_Holder account_Holder)
         {
+            var blocked= db.Account_Holder.Where(a => a.customer_id == account_Holder.customer_id && a.account_status!= "open").FirstOrDefault();
+           if(blocked!=null)
+            {
+                return Ok("blocked");
+            }
             var result = db.Account_Holder.Where(a => a.customer_id == account_Holder.customer_id && a.login_pass == account_Holder.login_pass && a.account_status=="open").FirstOrDefault();
             if (result != null)
             {

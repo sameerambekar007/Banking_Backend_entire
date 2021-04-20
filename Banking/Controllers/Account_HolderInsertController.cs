@@ -135,9 +135,11 @@ namespace Banking.Controllers
         {
           
             MailMessage mail = new MailMessage("rsvzbank@gmail.com",To);
-            mail.Subject ="Trail";
-            mail.Body = "Customer Id:\t" + custid +
-                "\nAccount Number:\t" + accountno + "\nLogin Passwword:\t" + loginpass + "\nTransaction Password:\t" + transpass;
+            mail.Subject ="Account Approved";
+            mail.Body = "Congratulations!!!\nYour account opening request with RSVZ Bank has been approved.\nFollowing are the credentials for same\n" +
+                "Customer Id:\t" + custid +
+                "\nAccount Number:\t" + accountno + "\nLogin Passwword:\t" + loginpass + "\nTransaction Password:\t" + transpass +
+                "\nPlease visit rsvz.com to explore exciting services provided by RSVZ";
             //Attachment attachment = new Attachment(@"");
             //mail.Attachments.Add(attachment);
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
@@ -153,8 +155,9 @@ namespace Banking.Controllers
         {
 
             MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
-            mail.Subject = "Trail";
-            mail.Body = "Customer Id:\t" + custid + "\n Account Number:\t" + accountno;
+            mail.Subject = "Account Approved";
+            mail.Body = "Congratulations!!!\nYour account opening request with RSVZ Bank has been approved.\nFollowing are the credentials for same\n" +
+                "Customer Id:\t" + custid + "\n Account Number:\t" + accountno;
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential()
             {

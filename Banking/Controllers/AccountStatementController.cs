@@ -70,10 +70,11 @@ namespace Banking.Controllers
         [ResponseType(typeof(Transaction))]
         public IHttpActionResult PostTransaction(AccountStatement accountStatement)
         {
-
+            //return Ok(accountStatement);
+            //return Ok("in controller");
             var debit = db.transaction_between_twodates2(accountStatement.trans_date, accountStatement.to_trans_date, accountStatement.account_no);
             var credit = db.transaction_between_twodatescredited(accountStatement.trans_date, accountStatement.to_trans_date, accountStatement.account_no);
-           
+            //return Ok(debit);
             //var combine = db.transaction_between_twodates3(accountStatement.trans_date, accountStatement.to_trans_date, accountStatement.account_no);
             return Ok(new { debit, credit });
             //if (!ModelState.IsValid)
