@@ -170,7 +170,7 @@ namespace Banking.Controllers
         {
 
             MailMessage mail = new MailMessage("rsvzbank@gmail.com", To);
-            mail.Subject = "OTP for verification";
+            mail.Subject = "Customer Id";
             mail.Body = "Customer Id:\t" + customerid;
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential()

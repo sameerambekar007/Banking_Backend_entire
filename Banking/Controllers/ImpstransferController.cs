@@ -148,7 +148,7 @@ namespace Banking.Controllers
             mail.Subject = "Transaction Successful!" + "Your account has been credited by\t" + amount;
             mail.Body = "Transaction Reference id\t" + ref_id + "\n Amount\t" + amount + "\nMode of transaction\t" + mode + "\n Sender Account number\t" + account_no + "\nTransaction time\t" + tdate + "\n Remarks\t" + remarks;
             //Attachment attachment = new Attachment(@"");
-            mail.Attachments.Add(new Attachment("C:/Users/devil/Downloads/2.png"));
+            //mail.Attachments.Add(new Attachment("C:/Users/devil/Downloads/2.png"));
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential()
             {
